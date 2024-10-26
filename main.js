@@ -1,3 +1,5 @@
+import {initializeCustomerScripts} from './customer/customer.js';
+
 document.addEventListener('DOMContentLoaded', () => {
 
 
@@ -17,8 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadCustomersLink.addEventListener('click', (e) => {
         e.preventDefault();
-        loadContent('./views/components/customer.html', () => {
-            console.log('Customers loaded');
-        });
+        loadContent('./views/components/customer.html', initializeCustomerScripts);
+        console.log("Load customers clicked");
     });
 });
