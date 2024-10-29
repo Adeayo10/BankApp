@@ -64,3 +64,34 @@ const loadCustomer = (customer) => {
   document.getElementById("customer-dob").value = customer.dateOfBirth;
   document.getElementById("customer-account-type").value = customer.accountType;
 };
+
+const displayCustomers = (customerList, customers) => {
+  customerList.innerHTML = " ";
+  customers.forEach((customer) => {
+    const li = document.createElement("li");
+    li.textContent = `${customer.name} - ${customer.email} - ${customer.phone} - ${customer.address} - ${customer.dateOfBirth} - ${customer.accountType} - ${customer.accountNumber}`;
+    li.dataset.id = customer.id;
+    li.addEventListener("click", () => {
+      const selectedCustomer = customers.find((c) => c.id === customer.id);
+      loadCustomer(selectedCustomer);
+    });
+    customerList.appendChild(li);
+    console.log("calling displayCustomers", customers);
+  });
+};
+
+export function handleSubmit(e, customerForm, customerList) {
+  e.preventDefault();
+  console.log("calling handleSubmit");
+  const formData = getFormData();
+  const customer = createCustomer(formData);
+  const { isValid, errors } = validateCustomer(customer);
+  if (!isValid) {
+    alert(errors.join("\n"));
+    return;
+  }
+  saveCustomer(customer);
+  alert("Customer saved successfully");
+  displayCustomers(customerList, customers);
+  customerForm.reset();
+}
