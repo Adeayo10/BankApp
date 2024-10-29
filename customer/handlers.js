@@ -2,7 +2,7 @@ import { validateCustomer } from "../validate.js";
 
 let customers = [];
 
-export const getCustomers = (customerList) => {
+const getCustomers = (customerList) => {
   fetch("../db.json")
     .then((response) => response.json())
     .then((data) => {
@@ -25,13 +25,16 @@ const getFormData = () => {
 };
 const createCustomer = (FormData) => {
   const customer = {
-    id: FormData.id ? parseInt(FormData.id) : Date.now(),
+    id: FormData.id ? parseInt(FormData.id) : customers.length + 1,
     name: FormData.name,
     email: FormData.email,
     address: FormData.address,
     dateOfBirth: FormData.dateOfBirth,
     accountType: FormData.accountType ? FormData.accountType : "Savings",
-    accountNumber: FormData.id ? null : generateAccountNumber(),
+    phone: FormData.phone,
+    accountNumber: FormData.accountNumber
+      ? FormData.id
+      : generateAccountNumber(),
   };
   return customer;
 };
@@ -42,18 +45,19 @@ const generateAccountNumber = () => {
 
   return randNum.toString().padStart(10, "0");
 };
-
+const findExistingCustomerIndex = (customerId) => {
+  return customers.findIndex((c) => c.id === customerId);
+};
 const saveCustomer = (customer) => {
-  console.log("calling saveCustomer");
-  const existingCustomerIndex = customers.findIndex(
-    (c) => c.id === customer.id
-  );
+  const existingCustomerIndex = findExistingCustomerIndex(customer.id);
   if (existingCustomerIndex > -1) {
-    alert("Customer with the ID already exists");
-    return;
+    return {
+      isSuccessfull: false,
+      message: "Customer with the ID already exists",
+    };
   }
-  customer.id = customers.length + 1;
   customers.push(customer);
+  return { isSuccessfull: true, message: "Customer saved successfully" };
 };
 const loadCustomer = (customer) => {
   document.getElementById("customer-id").value = customer.id;
@@ -80,9 +84,8 @@ const displayCustomers = (customerList, customers) => {
   });
 };
 
-export function handleSubmit(e, customerForm, customerList) {
+function handleSubmit(e, customerForm, customerList) {
   e.preventDefault();
-  console.log("calling handleSubmit");
   const formData = getFormData();
   const customer = createCustomer(formData);
   const { isValid, errors } = validateCustomer(customer);
@@ -90,13 +93,38 @@ export function handleSubmit(e, customerForm, customerList) {
     alert(errors.join("\n"));
     return;
   }
-  saveCustomer(customer);
-  alert("Customer saved successfully");
+  const saveResult = saveCustomer(customer);
+  if (!saveResult.isSuccessfull) {
+    alert(saveResult.message);
+    return;
+  }
+  alert(saveResult.message);
   displayCustomers(customerList, customers);
   customerForm.reset();
 }
+const updateCustomer = (customerForm, customerList) => {
+  const formData = getFormData();
+  const customer = createCustomer(formData);
+  const { isValid, errors } = validateCustomer(customer);
+  if (!isValid) {
+    alert(errors.join("\n"));
+    return;
+  }
+  const existingCustomerIndex = findExistingCustomerIndex(customer.id);
+  if (existingCustomerIndex === -1) {
+    alert("Customer does not exist");
+    return;
+  }
+  updateExistingCustomer(existingCustomerIndex, customer);
+  alert("Customer updated successfully");
+  displayCustomers(customerList, customers);
+  customerForm.reset();
+};
+const updateExistingCustomer = (index, customer) => {
+  customers[index] = customer;
+};
+function handleUpdateCustomer(customerForm, customerList) {
+  updateCustomer(customerForm, customerList);
+};
 
-
-export function updateCustomer() {
-  
-}
+export { getCustomers, handleSubmit, handleUpdateCustomer };

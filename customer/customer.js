@@ -1,4 +1,8 @@
-import { handleSubmit, getCustomers } from "./handlers.js";
+import {
+  handleSubmit,
+  getCustomers,
+  handleUpdateCustomer,
+} from "./handlers.js";
 
 export function initializeCustomerScripts() {
   const customerForm = document.querySelector("#customer-form");
@@ -11,9 +15,9 @@ export function initializeCustomerScripts() {
     handleSubmit(e, customerForm, customerList);
   });
 
-  updateCustomer.addEventListener("click", ()=>{})
-
-
+  updateCustomer.addEventListener("click", () => {
+    handleUpdateCustomer(customerForm, customerList);
+  });
 
   // ...
 }

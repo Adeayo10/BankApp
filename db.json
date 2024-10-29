@@ -18,7 +18,7 @@
             "phone": "987-654-3210",
             "address": "Shackleton st Dublin",
             "dateOfBirth": "1985-05-15",
-            "accountType": "Current",
+            "accountType": "current",
             "balance": 0,
             "accountNumber": 9876543210
         }
