@@ -95,3 +95,8 @@ export function handleSubmit(e, customerForm, customerList) {
   displayCustomers(customerList, customers);
   customerForm.reset();
 }
+
+
+export function updateCustomer() {
+  
+}
