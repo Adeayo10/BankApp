@@ -43,3 +43,24 @@ const generateAccountNumber = () => {
   return randNum.toString().padStart(10, "0");
 };
 
+const saveCustomer = (customer) => {
+  console.log("calling saveCustomer");
+  const existingCustomerIndex = customers.findIndex(
+    (c) => c.id === customer.id
+  );
+  if (existingCustomerIndex > -1) {
+    alert("Customer with the ID already exists");
+    return;
+  }
+  customer.id = customers.length + 1;
+  customers.push(customer);
+};
+const loadCustomer = (customer) => {
+  document.getElementById("customer-id").value = customer.id;
+  document.getElementById("customer-name").value = customer.name;
+  document.getElementById("customer-email").value = customer.email;
+  document.getElementById("customer-phone").value = customer.phone;
+  document.getElementById("customer-address").value = customer.address;
+  document.getElementById("customer-dob").value = customer.dateOfBirth;
+  document.getElementById("customer-account-type").value = customer.accountType;
+};
