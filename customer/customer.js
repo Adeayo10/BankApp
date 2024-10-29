@@ -8,6 +8,8 @@ export function initializeCustomerScripts() {
   const customerForm = document.querySelector("#customer-form");
   const customerList = document.querySelector("#customer-list");
   const updateCustomer = document.querySelector("#update-customer");
+  
+  const cancelCustomer = document.querySelector("#cancel-customer");
 
   getCustomers(customerList);
 
@@ -17,6 +19,10 @@ export function initializeCustomerScripts() {
 
   updateCustomer.addEventListener("click", () => {
     handleUpdateCustomer(customerForm, customerList);
+  });
+
+  cancelCustomer.addEventListener("click", () => {
+    customerForm.reset();
   });
 
   // ...
