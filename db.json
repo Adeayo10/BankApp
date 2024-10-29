@@ -6,7 +6,7 @@
             "email": "aadelee74@gmail.com",
             "phone": "123-456-7890",
             "address": "Shackleton St Dublin",
-            "dob": "1999-04-30",
+            "dateOfBirth": "1999-04-30",
             "accountType": "savings",
             "balance": 0,
             "accountNumber": 1234567890
@@ -17,7 +17,7 @@
             "email": "kolasoji@gmail.com",
             "phone": "987-654-3210",
             "address": "Shackleton st Dublin",
-            "dob": "1985-05-15",
+            "dateOfBirth": "1985-05-15",
             "accountType": "Current",
             "balance": 0,
             "accountNumber": 9876543210
