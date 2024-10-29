@@ -2,15 +2,29 @@ import { validateCustomer } from "../validate.js";
 
 let customers = [];
 
-const getCustomers = (customerList) => {
+function getCustomers(customerList) {
   fetch("../db.json")
     .then((response) => response.json())
     .then((data) => {
       customers = data.customers;
       displayCustomers(customerList, customers);
     });
-};
+}
 
+function getCustomersbySearch(customerList, searchValue) {
+  const filteredCustomers = customers.filter((customer) => {
+    return (
+      customer.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+      customer.email.toLowerCase().includes(searchValue.toLowerCase()) ||
+      customer.phone.toLowerCase().includes(searchValue.toLowerCase()) ||
+      customer.address.toLowerCase().includes(searchValue.toLowerCase()) ||
+      customer.dateOfBirth.toLowerCase().includes(searchValue.toLowerCase()) ||
+      customer.accountType.toLowerCase().includes(searchValue.toLowerCase()) ||
+      parseInt(customer.accountNumber) === parseInt(searchValue)
+    );
+  });
+  displayCustomers(customerList, filteredCustomers);
+}
 const getFormData = () => {
   const formData = {
     id: document.querySelector("#customer-id").value,
@@ -145,7 +159,7 @@ const updateExistingCustomer = (index, customer) => {
 };
 function handleUpdateCustomer(customerForm, customerList) {
   updateCustomer(customerForm, customerList);
-};
+}
 
 const deleteCustomer = (customerForm, customerList) => {
   const formData = getFormData();
@@ -159,11 +173,17 @@ const deleteCustomer = (customerForm, customerList) => {
   alert("Customer deleted successfully");
   displayCustomers(customerList, customers);
   customerForm.reset();
-}
+};
 const deleteExistingCustomer = (index) => {
   customers.splice(index, 1);
 };
 function handleDeleteCustomer(customerForm, customerList) {
   deleteCustomer(customerForm, customerList);
 }
-export { getCustomers, handleSubmit, handleUpdateCustomer, handleDeleteCustomer };
+export {
+  getCustomers as handleGetCustomers,
+  getCustomersbySearch as handleGetCustomersbySearch,
+  handleSubmit,
+  handleUpdateCustomer,
+  handleDeleteCustomer,
+};
