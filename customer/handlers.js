@@ -21,6 +21,7 @@ const getFormData = () => {
     dateOfBirth: document.querySelector("#customer-dob").value,
     accountType: document.querySelector("#customer-account-type").value,
   };
+  console.log("calling getFormData", formData);
   return formData;
 };
 const createCustomer = (FormData) => {
@@ -33,7 +34,7 @@ const createCustomer = (FormData) => {
     accountType: FormData.accountType ? FormData.accountType : "Savings",
     phone: FormData.phone,
     accountNumber: FormData.accountNumber
-      ? FormData.id
+      ? FormData.accountNumber
       : generateAccountNumber(),
   };
   return customer;
@@ -46,7 +47,9 @@ const generateAccountNumber = () => {
   return randNum.toString().padStart(10, "0");
 };
 const findExistingCustomerIndex = (customerId) => {
-  return customers.findIndex((c) => c.id === customerId);
+  let id = parseInt(customerId);
+  let customer = customers.findIndex((c) => c.id === id);
+  return customer;
 };
 const saveCustomer = (customer) => {
   const existingCustomerIndex = findExistingCustomerIndex(customer.id);
@@ -87,32 +90,49 @@ const displayCustomers = (customerList, customers) => {
 function handleSubmit(e, customerForm, customerList) {
   e.preventDefault();
   const formData = getFormData();
+  const existingCustomerIndex = findExistingCustomerIndex(formData.id);
+
+  if (existingCustomerIndex > -1) {
+    alert("Customer with the ID already exists");
+    return;
+  }
+
   const customer = createCustomer(formData);
   const { isValid, errors } = validateCustomer(customer);
   if (!isValid) {
     alert(errors.join("\n"));
     return;
   }
+
   const saveResult = saveCustomer(customer);
   if (!saveResult.isSuccessfull) {
     alert(saveResult.message);
     return;
   }
+
   alert(saveResult.message);
   displayCustomers(customerList, customers);
   customerForm.reset();
 }
 const updateCustomer = (customerForm, customerList) => {
   const formData = getFormData();
-  const customer = createCustomer(formData);
+  const existingCustomerIndex = findExistingCustomerIndex(formData.id);
+  if (existingCustomerIndex === -1) {
+    alert("Customer does not exist");
+    return;
+  }
+  const customer = {
+    ...customers[existingCustomerIndex],
+    name: formData.name,
+    email: formData.email,
+    address: formData.address,
+    dateOfBirth: formData.dateOfBirth,
+    accountType: formData.accountType,
+    phone: formData.phone,
+  };
   const { isValid, errors } = validateCustomer(customer);
   if (!isValid) {
     alert(errors.join("\n"));
-    return;
-  }
-  const existingCustomerIndex = findExistingCustomerIndex(customer.id);
-  if (existingCustomerIndex === -1) {
-    alert("Customer does not exist");
     return;
   }
   updateExistingCustomer(existingCustomerIndex, customer);
@@ -127,4 +147,23 @@ function handleUpdateCustomer(customerForm, customerList) {
   updateCustomer(customerForm, customerList);
 };
 
-export { getCustomers, handleSubmit, handleUpdateCustomer };
+const deleteCustomer = (customerForm, customerList) => {
+  const formData = getFormData();
+  console.log("calling handleDeleteCustomer", formData);
+  const existingCustomerIndex = findExistingCustomerIndex(formData.id);
+  if (existingCustomerIndex === -1) {
+    alert("Customer does not exist");
+    return;
+  }
+  deleteExistingCustomer(existingCustomerIndex);
+  alert("Customer deleted successfully");
+  displayCustomers(customerList, customers);
+  customerForm.reset();
+}
+const deleteExistingCustomer = (index) => {
+  customers.splice(index, 1);
+};
+function handleDeleteCustomer(customerForm, customerList) {
+  deleteCustomer(customerForm, customerList);
+}
+export { getCustomers, handleSubmit, handleUpdateCustomer, handleDeleteCustomer };
