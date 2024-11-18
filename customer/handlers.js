@@ -2,14 +2,17 @@ import { validateCustomer } from "../validate.js";
 
 let customers = [];
 
-function getCustomers(customerList) {
-  fetch("../db.json")
-    .then((response) => response.json())
-    .then((data) => {
-      customers = data.customers;
-      displayCustomers(customerList, customers);
-    });
+async function getCustomers(customerList) {
+  try {
+    const response = await fetch("../db.json");
+    const data = await response.json();
+    customers = data.customers;
+    displayCustomers(customerList, customers);
+  } catch (error) {
+    console.error("Failed to fetch customers:", error);
+  }
 }
+
 
 function getCustomersbySearch(customerList, searchValue) {
   const filteredCustomers = customers.filter((customer) => {
