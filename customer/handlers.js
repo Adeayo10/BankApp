@@ -91,7 +91,7 @@ const displayCustomers = (customerList, customers) => {
   const rows = customerList.querySelectorAll("tr");
   rows.forEach((row) => {
     row.addEventListener("click", () => {
-      const customerId = row.getAttribute("data-id");
+      const customerId = row.getAttribute("data-id"); 
       const customer = customers.find((c) => c.id === parseInt(customerId));
       loadCustomer(customer);
     });
