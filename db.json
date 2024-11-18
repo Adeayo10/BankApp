@@ -22,5 +22,22 @@
             "balance": 0,
             "accountNumber": 9876543210
         }
+    ],
+    "users": [
+        {
+            "id": 1,
+            "name": "Adeayo Kola-Adeyemi",
+            "email": "aadelee74@gmail.com",
+            "role": "admin",
+            "password": "password"
+        },
+        {
+            "id": 2,
+            "name": "Adesoji Kola-Adeyemi",
+            "email": "kolasoji@gmail.com",
+            "role": "user",
+            "password": "password"
+        }
     ]
+
 }
