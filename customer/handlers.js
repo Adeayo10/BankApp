@@ -87,16 +87,43 @@ const loadCustomer = (customer) => {
 };
 
 const displayCustomers = (customerList, customers) => {
-  customerList.innerHTML = " ";
+  customerList.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <th>Date of Birth</th>
+          <th>Account Type</th>
+          <th>Balance</th>
+          <th>Account Number</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  `;
+  const tbody = customerList.querySelector("tbody");
   customers.forEach((customer) => {
-    const li = document.createElement("li");
-    li.textContent = `${customer.name} - ${customer.email} - ${customer.phone} - ${customer.address} - ${customer.dateOfBirth} - ${customer.accountType} - ${customer.accountNumber}`;
-    li.dataset.id = customer.id;
-    li.addEventListener("click", () => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${customer.name}</td>
+      <td>${customer.email}</td>
+      <td>${customer.phone}</td>
+      <td>${customer.address}</td>
+      <td>${customer.dateOfBirth}</td>
+      <td>${customer.accountType}</td>
+      <td>${customer.balance}</td>
+      <td>${customer.accountNumber}</td>
+    `;
+    tr.dataset.id = customer.id;
+    tr.addEventListener("click", () => {
       const selectedCustomer = customers.find((c) => c.id === customer.id);
       loadCustomer(selectedCustomer);
     });
-    customerList.appendChild(li);
+    tbody.appendChild(tr);
     console.log("calling displayCustomers", customers);
   });
 };
