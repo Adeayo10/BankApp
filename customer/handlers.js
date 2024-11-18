@@ -87,6 +87,17 @@ const loadCustomer = (customer) => {
 };
 
 const displayCustomers = (customerList, customers) => {
+  renderCustomerTable(customerList, customers);
+  const rows = customerList.querySelectorAll("tr");
+  rows.forEach((row) => {
+    row.addEventListener("click", () => {
+      const customerId = row.getAttribute("data-id");
+      const customer = customers.find((c) => c.id === parseInt(customerId));
+      loadCustomer(customer);
+    });
+  });
+};
+const renderCustomerTable = (customerList, customers) => {
   customerList.innerHTML = `
     <table>
       <thead>
@@ -102,30 +113,25 @@ const displayCustomers = (customerList, customers) => {
         </tr>
       </thead>
       <tbody>
+        ${customers
+          .map(
+            (customer) => `
+          <tr data-id="${customer.id}">
+            <td>${customer.name}</td>
+            <td>${customer.email}</td>
+            <td>${customer.phone}</td>
+            <td>${customer.address}</td>
+            <td>${customer.dateOfBirth}</td>
+            <td>${customer.accountType}</td>
+            <td>${customer.balance}</td>
+            <td>${customer.accountNumber}</td>
+          </tr>
+        `
+          )
+          .join("")}
       </tbody>
     </table>
   `;
-  const tbody = customerList.querySelector("tbody");
-  customers.forEach((customer) => {
-    const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td>${customer.name}</td>
-      <td>${customer.email}</td>
-      <td>${customer.phone}</td>
-      <td>${customer.address}</td>
-      <td>${customer.dateOfBirth}</td>
-      <td>${customer.accountType}</td>
-      <td>${customer.balance}</td>
-      <td>${customer.accountNumber}</td>
-    `;
-    tr.dataset.id = customer.id;
-    tr.addEventListener("click", () => {
-      const selectedCustomer = customers.find((c) => c.id === customer.id);
-      loadCustomer(selectedCustomer);
-    });
-    tbody.appendChild(tr);
-    console.log("calling displayCustomers", customers);
-  });
 };
 
 function handleSubmit(e, customerForm, customerList) {
