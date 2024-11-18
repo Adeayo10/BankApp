@@ -77,6 +77,31 @@ function generatePassword(){
     return Math.random().toString(36).slice(-8);
 }
 
+function handleCreateUser(e, userForm, userList){
+    e.preventDefault();
+    const formData = getFormData();
+
+    const existingCustomerIndex = findExistingUserIndex(formData.id);
+
+    if(existingUserIndex > -1){
+        alert("User with the ID already exists");
+        return;
+    }
+
+    const user = createUser(formData);
+    const { isValid, errors } = validateUser(user);
+    if(!isValid){
+        alert(errors.join("\n"));
+        return;
+    }
+
+    const saveResult = saveUser(user);
+    if(!saveResult.isSuccessfull){
+        alert(saveResult.message);
+        return;
+    }
+}
+
 
 
 export { handleGetUsers };
