@@ -1,14 +1,17 @@
+import {validateUser} from "../validate.js";
+
 let users = [];
 
-function handleGetUsers(userList){
-    fetch("../db.json")
-    .then(resp => resp.json())
-    .then(users => {
-        users = users.users;
+async function handleGetUsers(userList) {
+    try {
+        const response = await fetch("../db.json");
+        const data = await response.json();
+        users = data.users;
         displayUsers(userList, users);
-    });
+    } catch (error) {
+        console.error("Failed to fetch users:", error);
+    }
 }
-
 
 function displayUsers(userList, users){
     renderUserTable(userList, users);
@@ -30,6 +33,7 @@ function renderUserTable(userList, users){
                     <th>Name</th>
                     <th>Email
                     <th>Role</th>
+                    <th>Password</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +42,7 @@ function renderUserTable(userList, users){
                         <td>${user.name}</td>
                         <td>${user.email}</td>
                         <td>${user.role}</td>
+                        <td>${user.password}</td>
                     </tr>
                 `).join("")}
             </tbody>
@@ -62,9 +67,9 @@ function getFormData(){
     return formData;
 }
 
-function createCustomer(formData){
+function createUser(formData){
     const user = {
-        id: formData.id,
+        id: formData.id? parseInt(formData.id) : users.length + 1,
         name: formData.name,
         email: formData.email,
         role: formData.role,
@@ -81,7 +86,7 @@ function handleCreateUser(e, userForm, userList){
     e.preventDefault();
     const formData = getFormData();
 
-    const existingCustomerIndex = findExistingUserIndex(formData.id);
+    const existingUserIndex = findExistingUserIndex(formData.id);
 
     if(existingUserIndex > -1){
         alert("User with the ID already exists");
@@ -100,11 +105,33 @@ function handleCreateUser(e, userForm, userList){
         alert(saveResult.message);
         return;
     }
+
+    alert(saveResult.message);
+    console.log(users);
+    displayUsers(userList, users);
+    console.log(users);
+
+    userForm.reset();
+}
+
+function findExistingUserIndex(userId){
+    let id = parseInt(userId);
+    let userIndex = users.findIndex(user => user.id === id);
+    return userIndex;
+}
+
+function saveUser(user){
+    const userIndex = findExistingUserIndex(user.id);
+    if(userIndex > -1){
+        return { isSuccessfull: false, message: "User with the ID already exists" };
+    }
+    
+    users.push(user);
+    return { isSuccessfull: true, message: "User created successfully" };
 }
 
 
-
-export { handleGetUsers };
+export { handleGetUsers, handleCreateUser };
 
 
 
