@@ -28,6 +28,16 @@ function displayUsers(userList, users){
             </tbody>
         </table>
     `;
+    const rows = userList.querySelectorAll("tr");
+    rows.forEach(row => {
+        row.addEventListener("click", () => {
+            const userId = row.getAttribute("data-id");
+            const user = users.find(u => u.id === parseInt(userId));
+            loadUser(user);
+        });
+    });
+    
+    
 }
 
 
