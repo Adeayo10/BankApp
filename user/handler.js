@@ -9,7 +9,26 @@ function handleGetUsers(userList){
     });
 }
 
-
+function displayUsers(userList, users){
+    userList.innerHTML = `
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${users.map(user => `
+                    <tr>
+                        <td>${user.name}</td>
+                        <td>${user.role}</td>  
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+}
 
 
 export { handleGetUsers };
