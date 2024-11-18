@@ -52,6 +52,16 @@ function loadUser(user){
     document.getElementById("user-role").value = user.role;
 }
 
+function getFormData(){
+    const formData = {
+        id: document.getElementById("user-id").value,
+        name: document.getElementById("user-name").value,
+        email: document.getElementById("user-email").value,
+        role: document.getElementById("user-role").value
+    };
+    return formData;
+}
+
 
 export { handleGetUsers };
 
