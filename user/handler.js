@@ -9,35 +9,47 @@ function handleGetUsers(userList){
     });
 }
 
+
 function displayUsers(userList, users){
+    renderUserTable(userList, users);
+    const userRows = userList.querySelectorAll("tr");
+    userRows.forEach(row => {
+        row.addEventListener("click", () => {
+            const userId = parseInt(row.getAttribute("data-id"));
+            const user = users.find(user => user.id === userId);
+            loadUser(user);
+        });
+    });
+    
+}
+function renderUserTable(userList, users){
     userList.innerHTML = `
         <table>
             <thead>
                 <tr>
                     <th>Name</th>
+                    <th>Email
                     <th>Role</th>
                 </tr>
             </thead>
             <tbody>
                 ${users.map(user => `
-                    <tr>
+                    <tr data-id="${user.id}">
                         <td>${user.name}</td>
-                        <td>${user.role}</td>  
+                        <td>${user.email}</td>
+                        <td>${user.role}</td>
                     </tr>
-                `).join('')}
+                `).join("")}
             </tbody>
         </table>
     `;
-    const rows = userList.querySelectorAll("tr");
-    rows.forEach(row => {
-        row.addEventListener("click", () => {
-            const userId = row.getAttribute("data-id");
-            const user = users.find(u => u.id === parseInt(userId));
-            loadUser(user);
-        });
-    });
-    
-    
+}
+
+function loadUser(user){
+    document.getElementById("user-id").value = user.id;
+    document.getElementById("user-name").value = user.name;
+    document.getElementById("user-email").value = user.email;
+    document.getElementById("user-role").value = user.role;
 }
 
 
