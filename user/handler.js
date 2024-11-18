@@ -1,17 +1,18 @@
+let users = [];
+
 function handleGetUsers(userList){
-    fetch("http://localhost:3000/users")
+    fetch("../db.json")
     .then(resp => resp.json())
     .then(users => {
-        users.forEach(user => {
-            const userLi = document.createElement("li");
-            userLi.innerText = user.name;
-            userList.appendChild(userLi);
-        });
+        users = users.users;
+        displayUsers(userList, users);
     });
 }
 
 
 
+
+export { handleGetUsers };
 
 
 

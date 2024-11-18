@@ -1,3 +1,4 @@
+import { handleGetUsers } from "./handler.js";
 export function initializeUserScripts(){
     const userForm = document.getElementById("user-form");
     const userList = document.getElementById("user-list");
