@@ -62,6 +62,22 @@ function getFormData(){
     return formData;
 }
 
+function createCustomer(formData){
+    const user = {
+        id: formData.id,
+        name: formData.name,
+        email: formData.email,
+        role: formData.role,
+        password: formData.password ? formData.password : generatePassword()
+    };
+    return user;
+}
+
+function generatePassword(){
+    return Math.random().toString(36).slice(-8);
+}
+
+
 
 export { handleGetUsers };
 
