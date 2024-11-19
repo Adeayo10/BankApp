@@ -159,18 +159,19 @@ function handleUpdateUser(userForm, userList){
    
 }
 
-function updateExistingUser(index, user){
-   if(index > -1){
-       users[index] = user;
-       alert("User updated successfully");
-   }
-    else{
-         alert("User does not exist");
-    }
+function handleDeleteUser(userForm, userList){
+    
+}
+
+function deleteUser(userForm, userList
+
+){
 
 }
 
+function deletingExistingUser(index){
 
+}   
 
 export { handleGetUsers, handleCreateUser, handleUpdateUser };
 
