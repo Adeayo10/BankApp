@@ -131,7 +131,43 @@ function saveUser(user){
 }
 
 function handleUpdateUser(userForm, userList){
+    console.log("calling Update user method");
     
+    const formData = getFormData();
+    const existingUserIndex = findExistingUserIndex(formData.id);
+    if(existingUserIndex === -1){
+        alert("User does not exist");
+        return;
+    }
+
+    const user = {
+        ...users[existingUserIndex],
+        name: formData.name,
+        email: formData.email,
+        role: formData.role,
+    };
+
+    const { isValid, errors } = validateUser(user);
+    if(!isValid){
+        alert(errors.join("\n"));
+        return;
+    }   
+
+    updateExistingUser(existingUserIndex, user);
+    displayUsers(userList, users);
+    userForm.reset();
+   
+}
+
+function updateExistingUser(index, user){
+   if(index > -1){
+       users[index] = user;
+       alert("User updated successfully");
+   }
+    else{
+         alert("User does not exist");
+    }
+
 }
 
 
