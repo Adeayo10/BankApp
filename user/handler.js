@@ -130,8 +130,13 @@ function saveUser(user){
     return { isSuccessfull: true, message: "User created successfully" };
 }
 
+function handleUpdateUser(userForm, userList){
+    
+}
 
-export { handleGetUsers, handleCreateUser };
+
+
+export { handleGetUsers, handleCreateUser, handleUpdateUser };
 
 
 
