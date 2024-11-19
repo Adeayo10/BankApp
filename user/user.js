@@ -1,4 +1,4 @@
-import { handleGetUsers, handleCreateUser } from "./handler.js";
+import { handleGetUsers, handleCreateUser, handleUpdateUser } from "./handler.js";
 export function initializeUserScripts(){
     const userForm = document.getElementById("user-form");
     const userList = document.getElementById("user-list");
@@ -9,6 +9,10 @@ export function initializeUserScripts(){
 
     userForm.addEventListener("submit", (e) => {
         handleCreateUser(e, userForm, userList);
+    });
+
+    updateUserButton.addEventListener("click", () => {
+        handleUpdateUser(userForm, userList);
     });
 }
 
