@@ -160,20 +160,29 @@ function handleUpdateUser(userForm, userList){
 }
 
 function handleDeleteUser(userForm, userList){
-    
+    deleteUser(userForm, userList);
 }
 
-function deleteUser(userForm, userList
+function deleteUser(userForm, userList){
+    const formData = getFormData();
+    const existingUserIndex = findExistingUserIndex(formData.id);
+    if(existingUserIndex === -1){
+        alert("User does not exist");
+        return;
+    }
 
-){
+    deletingExistingUser(existingUserIndex);
+    alert("User deleted successfully");
+    displayUsers(userList, users);
+    userForm.reset();
 
 }
 
 function deletingExistingUser(index){
-
+users.splice(index, 1);
 }   
 
-export { handleGetUsers, handleCreateUser, handleUpdateUser };
+export { handleGetUsers, handleCreateUser, handleUpdateUser, handleDeleteUser };
 
 
 
