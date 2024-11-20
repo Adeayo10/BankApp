@@ -4,7 +4,9 @@ export function initializeUserScripts(){
     const userList = document.getElementById("user-list");
     const deleteUserButton = document.getElementById("delete-user");
     const updateUserButton = document.getElementById("update-user");
-   
+    const cancelUserButton = document.getElementById("cancel-user");
+    const searchUserInput = document.getElementById("search-user");
+    const searchUserButton = document.getElementById("search-user-btn");
 
     handleGetUsers(userList);
 
