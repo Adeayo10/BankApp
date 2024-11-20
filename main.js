@@ -1,6 +1,6 @@
 import { initializeCustomerScripts } from "./customer/customer.js";
 import { initializeUserScripts } from "./user/user.js";
-import { initializeTransactionScripts } from "./transaction/transaction.js";
+import { initializeTransactionScripts } from "./transactions/transaction.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const mainContent = document.querySelector("#main-content");

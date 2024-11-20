@@ -3,8 +3,8 @@
     <form id="transaction-form">
         <input type="hidden" id="transaction-id">
         
-        <label for="transaction-customer-id">Customer ID:</label>
-        <input type="number" id="transaction-customer-id" required>
+        <label for="transaction-customer-accountNumber">Customer accountNumber:</label>
+        <input type="string" id="transaction-customer-id" required>
         
         <label for="transaction-amount">Amount:</label>
         <input type="number" id="transaction-amount" required>
@@ -18,7 +18,7 @@
         
         <button type="submit">Save</button>
         <button type="button" id="delete-transaction">Delete</button>
-        <button type="button" id="update-transaction">Update</button>
+        <button type="update" id="update-transaction">Update</button>
     </form>
     <ul id="transaction-list"></ul>
 </section>
