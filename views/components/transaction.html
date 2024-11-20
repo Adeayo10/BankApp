@@ -1,0 +1,25 @@
+<section id="transactions">
+    <h2>Manage Transactions</h2>
+    <form id="transaction-form">
+        <input type="hidden" id="transaction-id">
+        
+        <label for="transaction-customer-id">Customer ID:</label>
+        <input type="number" id="transaction-customer-id" required>
+        
+        <label for="transaction-amount">Amount:</label>
+        <input type="number" id="transaction-amount" required>
+        
+        <label for="transaction-type">Type:</label>
+        <select id="transaction-type" required>
+            <option value="">Select Type</option>
+            <option value="deposit">Deposit</option>
+            <option value="withdrawal">Withdrawal</option>
+        </select>
+        
+        <button type="submit">Save</button>
+        <button type="button" id="delete-transaction">Delete</button>
+        <button type="button" id="update-transaction">Update</button>
+    </form>
+    <ul id="transaction-list"></ul>
+</section>
+<script src="../../main.js"></script>
