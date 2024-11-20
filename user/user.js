@@ -23,6 +23,9 @@ export function initializeUserScripts(){
         handleDeleteUser(userForm, userList);
     });
 
+    cancelUserButton.addEventListener("click", () => {
+        userForm.reset();
+    });
     
 }
 
