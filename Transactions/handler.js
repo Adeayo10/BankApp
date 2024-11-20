@@ -55,18 +55,41 @@ function renderTransactionTable(transactionList, transactions){
 
 function loadTransaction(transaction) {
     document.getElementById("transaction-id").value = transaction.id;
-    document.getElementById("transaction-customer-id").value = transaction.customerId;
+    document.getElementById("transaction-customer-accountNumber").value = transaction.accountNumber;
     document.getElementById("transaction-amount").value = transaction.amount;
     document.getElementById("transaction-type").value = transaction.type;
+    document.getElementById("transaction-description").value = transaction.description;
+    document.getElementById("transaction-date").value = transaction.date;
 }
 
 function getTransactionFormData() {
-    return {
+    const transactionData = {
         id: document.getElementById("transaction-id").value,
-        customerId: document.getElementById("transaction-customer-id").value,
+        accountNumber: document.getElementById("transaction-customer-accountNumber").value,
         amount: document.getElementById("transaction-amount").value,
-        type: document.getElementById("transaction-type").value
+        type: document.getElementById("transaction-type").value,
+        description: document.getElementById("transaction-description").value,
+        date: document.getElementById("transaction-date").value
     };
+
+    return transactionData;
+}
+function createTransaction(transactionData) {
+    const newTransaction = {
+        id: transactions.length + 1,
+        accountNumber: transactionData.accountNumber,
+        amount: transactionData.amount,
+        type: transactionData.type,
+        description: transactionData.description,
+        date: transactionData.date
+    };
+
+    transactions.push(newTransaction);
+    return newTransaction;
+}
+
+function handleCreateTransaction(transactionList) {
+    
 }
 
 export { handleGetTransactions };
