@@ -41,7 +41,7 @@ const getFormData = () => {
   console.log("calling getFormData", formData);
   return formData;
 };
-const createCustomer = (FormData) => {
+const createCustomerObject = (FormData) => {
   const customer = {
     id: FormData.id ? parseInt(FormData.id) : customers.length + 1,
     name: FormData.name,
@@ -147,7 +147,7 @@ function handleSubmit(e, customerForm, customerList) {
     return;
   }
 
-  const customer = createCustomer(formData);
+  const customer = createCustomerObject(formData);
   const { isValid, errors } = validateCustomer(customer);
   if (!isValid) {
     alert(errors.join("\n"));
