@@ -60,5 +60,14 @@ function loadTransaction(transaction) {
     document.getElementById("transaction-type").value = transaction.type;
 }
 
+function getTransactionFormData() {
+    return {
+        id: document.getElementById("transaction-id").value,
+        customerId: document.getElementById("transaction-customer-id").value,
+        amount: document.getElementById("transaction-amount").value,
+        type: document.getElementById("transaction-type").value
+    };
+}
+
 export { handleGetTransactions };
 
