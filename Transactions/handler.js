@@ -12,3 +12,18 @@ async function handleGetTransactions(transactionList) {
     }
 }
 
+function displayTransactions(transactionList, transactions){
+    renderTransactionTable(transactionList, transactions);
+    const transactionRows = transactionList.querySelectorAll("tr");
+    transactionRows.forEach(row => {
+        row.addEventListener("click", () => {
+            const transactionId = parseInt(row.getAttribute("data-id"));
+            const transaction = transactions.find(transaction => transaction.id === transactionId);
+            loadTransaction(transaction);
+        });
+    });
+    
+}
+
+
+
