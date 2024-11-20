@@ -79,7 +79,7 @@ function getFormData(){
     return formData;
 }
 
-function createUser(formData){
+function createUserObject(formData){
     const user = {
         id: formData.id? parseInt(formData.id) : users.length + 1,
         name: formData.name,
@@ -105,7 +105,7 @@ function handleCreateUser(e, userForm, userList){
         return;
     }
 
-    const user = createUser(formData);
+    const user = createUserObject(formData);
     const { isValid, errors } = validateUser(user);
     if(!isValid){
         alert(errors.join("\n"));
