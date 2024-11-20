@@ -28,6 +28,8 @@ function displayTransactions(transactionList, transactions){
  
 function renderTransactionTable(transactionList, transactions){
     transactionList.innerHTML = `
+        <table>
+        <thead>
         <tr>
             <th>Account number</th>
             <th>Amount</th>
@@ -35,7 +37,8 @@ function renderTransactionTable(transactionList, transactions){
             <th>Type</th>
             <th>Description</th>
         </tr>
-
+        </thead>
+        <tbody>
         ${transactions.map(transaction => `
             <tr data-id="${transaction.id}">
                 <td>${transaction.accountNumber}</td>
@@ -45,6 +48,8 @@ function renderTransactionTable(transactionList, transactions){
                 <td>${transaction.description}</td>
             </tr>
         `).join("")}
+        </tbody>
+        </table>
     `;
 }
 
