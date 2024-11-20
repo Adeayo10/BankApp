@@ -6,6 +6,7 @@ async function handleGetTransactions(transactionList) {
         const response = await fetch("../db.json");
         const data = await response.json();
         transactions = data.transactions;
+        console.log(transactions);
         displayTransactions(transactionList, transactions);
     } catch (error) {
         console.error("Failed to fetch transactions:", error);
@@ -24,31 +25,35 @@ function displayTransactions(transactionList, transactions){
     });
     
 }
-
+ 
 function renderTransactionTable(transactionList, transactions){
     transactionList.innerHTML = `
-        <table>
-            <thead>
-                <tr>
-                    <th>Amount</th>
-                    <th>Vendor</th>
-                    <th>Category</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${transactions.map(transaction => `
-                    <tr data-id="${transaction.id}">
-                        <td>${transaction.amount}</td>
-                        <td>${transaction.vendor}</td>
-                        <td>${transaction.category}</td>
-                        <td>${transaction.date}</td>
-                    </tr>
-                `).join("")}
-            </tbody>
-        </table>
+        <tr>
+            <th>Account number</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+
+        ${transactions.map(transaction => `
+            <tr data-id="${transaction.id}">
+                <td>${transaction.accountNumber}</td>
+                <td>${transaction.amount}</td>
+                <td>${transaction.date}</td>
+                <td>${transaction.type}</td>
+                <td>${transaction.description}</td>
+            </tr>
+        `).join("")}
     `;
 }
 
+function loadTransaction(transaction) {
+    document.getElementById("transaction-id").value = transaction.id;
+    document.getElementById("transaction-customer-id").value = transaction.customerId;
+    document.getElementById("transaction-amount").value = transaction.amount;
+    document.getElementById("transaction-type").value = transaction.type;
+}
 
+export { handleGetTransactions };
 
