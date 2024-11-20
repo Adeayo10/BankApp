@@ -38,6 +38,20 @@
             "role": "user",
             "password": "password"
         }
+    ],
+    "transactions": [
+        {
+            "id": 1,
+            "customerId": 1,
+            "amount": 1000,
+            "type": "deposit"
+        },
+        {
+            "id": 2,
+            "customerId": 2,
+            "amount": 500,
+            "type": "withdrawal"
+        }
     ]
 
 }
