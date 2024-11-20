@@ -1,4 +1,4 @@
-import { handleGetUsers, handleCreateUser, handleUpdateUser, handleDeleteUser } from "../user/handler.js";
+import { handleGetUsers, handleCreateUser, handleUpdateUser, handleDeleteUser, handleGetUsersBySearch } from "../user/handler.js";
 export function initializeUserScripts(){
     const userForm = document.getElementById("user-form");
     const userList = document.getElementById("user-list");
@@ -25,6 +25,11 @@ export function initializeUserScripts(){
 
     cancelUserButton.addEventListener("click", () => {
         userForm.reset();
+    });
+
+    searchUserButton.addEventListener("click", () => {
+        const searchValue = searchUserInput.value;
+        handleGetUsersBySearch(userList, searchValue);
     });
     
 }
