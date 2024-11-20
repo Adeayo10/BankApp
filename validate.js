@@ -44,16 +44,16 @@ function validateUser(user) {
 function validateTransaction(transaction) {
     const errors = [];
 
-    if (!transaction.customerId || isNaN(transaction.customerId)) {
-        errors.push('Customer ID is required and must be a number.');
+    if (!transaction.amount || typeof transaction.amount !== 'number' || transaction.amount <= 0) {
+        errors.push('Amount is required and must be a positive number.');
     }
 
-    if (!transaction.amount || isNaN(transaction.amount)) {
-        errors.push('Amount is required and must be a number.');
+    if (!transaction.type ) {
+        errors.push('Type is required and must be either "credit" or "debit".');
     }
 
-    if (!transaction.type || (transaction.type !== 'deposit' && transaction.type !== 'withdrawal')) {
-        errors.push('Type is required and must be either "deposit" or "withdrawal".');
+    if (!transaction.date || isNaN(Date.parse(transaction.date))) {
+        errors.push('A valid date is required.');   
     }
 
     return {
