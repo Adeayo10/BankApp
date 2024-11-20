@@ -41,5 +41,26 @@ function validateUser(user) {
     };
 }
 
-export { validateCustomer, validateUser };
+function validateTransaction(transaction) {
+    const errors = [];
+
+    if (!transaction.customerId || isNaN(transaction.customerId)) {
+        errors.push('Customer ID is required and must be a number.');
+    }
+
+    if (!transaction.amount || isNaN(transaction.amount)) {
+        errors.push('Amount is required and must be a number.');
+    }
+
+    if (!transaction.type || (transaction.type !== 'deposit' && transaction.type !== 'withdrawal')) {
+        errors.push('Type is required and must be either "deposit" or "withdrawal".');
+    }
+
+    return {
+        isValid: errors.length === 0,
+        errors: errors
+    };
+}
+
+export { validateCustomer, validateUser, validateTransaction };
 
