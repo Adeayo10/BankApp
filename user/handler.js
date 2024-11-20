@@ -13,6 +13,11 @@ async function handleGetUsers(userList) {
     }
 }
 
+function handleGetUsersBySearch(userList, searchValue) {
+
+}
+
+
 function displayUsers(userList, users){
     renderUserTable(userList, users);
     const userRows = userList.querySelectorAll("tr");
