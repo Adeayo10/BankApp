@@ -1,4 +1,4 @@
-import {  handleGetTransactions } from "./handler.js";
+import {  handleGetTransactions, displayUserName } from "./handler.js";
 
 export function initializeTransactionScripts(){
 
@@ -6,6 +6,11 @@ export function initializeTransactionScripts(){
     const transactionList = document.getElementById("transaction-list");
     const deleteTransactionButton = document.getElementById("delete-transaction");
     const updateTransactionButton = document.getElementById("update-transaction");
+    const accountNumberInput = document.getElementById("transaction-customer-accountNumber");
 
    handleGetTransactions(transactionList);
+
+    accountNumberInput.addEventListener("blur", displayUserName);
+  
+
 }
