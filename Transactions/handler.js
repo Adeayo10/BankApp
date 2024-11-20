@@ -69,6 +69,19 @@ function renderTransactionTable(transactionList, transactions) {
 //   document.getElementById("transaction-date").value = transaction.date;
 // }
 
+function handleGetTransactionBySearch(transactionList, searchValue) {
+    const filteredTransactions = transactions.filter((transaction) => {
+        return (
+        transaction.accountNumber.toString().includes(searchValue) ||
+        transaction.amount.toString().includes(searchValue) ||
+        transaction.date.includes(searchValue) ||
+        transaction.type.includes(searchValue) ||
+        transaction.description.includes(searchValue)
+        );
+    });
+    displayTransactions(transactionList, filteredTransactions);
+}
+
 async function checkIfAccountNumberExistAndReturnCustomer(accountNumber) {
     const response = await fetch(`../db.json`);
     const data = await response.json();
@@ -144,4 +157,4 @@ function handleTransactionFormSubmit(e, transactionForm, transactionList){
 
 
 
-export { handleGetTransactions, displayCustomerName, handleTransactionFormSubmit  };
+export {handleGetTransactionBySearch, handleGetTransactions, displayCustomerName, handleTransactionFormSubmit  };
