@@ -99,7 +99,49 @@ async function displayCustomerName() {
     }
 }
 
+function getTransactionFormData(){
+    const formData  ={
+        accountNumber: document.getElementById("transaction-customer-accountNumber").value,
+        amount: document.getElementById("transaction-amount").value,
+        type: document.getElementById("transaction-type").value,
+        description: document.getElementById("transaction-description").value,
+        date: document.getElementById("transaction-date").value
+    }
+    return formData;
+}
+
+function createTransactionObject(formData){
+    const transaction = {
+        accountNumber: parseInt(formData.accountNumber, 10),
+        amount: parseFloat(formData.amount),
+        type: formData.type,
+        description: formData.description,
+        date: formData.date
+    }
+    return transaction;
+}
+
+function saveTransaction(transaction){
+    if(checkIfAccountNumberExistAndReturnCustomer(transaction.accountNumber)){
+        transactions.push(transaction);
+        alert("Transaction saved successfully");
+    }
+}
+
+function handleTransactionFormSubmit(e, transactionForm, transactionList){
+    e.preventDefault();
+    const formData = getTransactionFormData();
+    const transaction = createTransactionObject(formData);
+    const { isValid, errors } = validateTransaction(transaction);
+    if(!isValid){
+        alert(errors.join("\n"));
+        return;
+    }
+    saveTransaction(transaction);
+    displayTransactions(transactionList, transactions);
+    transactionForm.reset();
+}
 
 
 
-export { handleGetTransactions, displayCustomerName as displayUserName };
+export { handleGetTransactions, displayCustomerName, handleTransactionFormSubmit  };
