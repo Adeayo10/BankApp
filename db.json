@@ -42,15 +42,20 @@
     "transactions": [
         {
             "id": 1,
-            "customerId": 1,
+            "accountNumber": 1234567890,
             "amount": 1000,
-            "type": "deposit"
+            "date": "2021-04-30",
+            "type": "deposit",
+            "description": "Salary"
         },
         {
             "id": 2,
-            "customerId": 2,
+            "accountNumber": 9876543210,
             "amount": 500,
-            "type": "withdrawal"
+            "date": "2021-04-30",
+            "type": "withdrawal",
+            "description": "Rent"
+
         }
     ]
 
