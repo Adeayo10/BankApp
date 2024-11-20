@@ -14,7 +14,14 @@ async function handleGetUsers(userList) {
 }
 
 function handleGetUsersBySearch(userList, searchValue) {
-
+    const filteredUsers = users.filter(user => {
+        return (
+            user.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+            user.email.toLowerCase().includes(searchValue.toLowerCase()) ||
+            user.role.toLowerCase().includes(searchValue.toLowerCase())
+        );
+    });
+    displayUsers(userList, filteredUsers);
 }
 
 
@@ -187,7 +194,7 @@ function deletingExistingUser(index){
 users.splice(index, 1);
 }   
 
-export { handleGetUsers, handleCreateUser, handleUpdateUser, handleDeleteUser };
+export { handleGetUsers, handleCreateUser, handleUpdateUser, handleDeleteUser, handleGetUsersBySearch };
 
 
 
