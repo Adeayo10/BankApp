@@ -142,12 +142,12 @@ function saveUser(user){
     return { isSuccessfull: true, message: "User created successfully" };
 }
 
-function handleUpdateUser(userForm, userList){
-    console.log("calling Update user method");
-    
+function handleUpdateUser(userForm, userList) {
+    console.log("Calling update user method");
+
     const formData = getFormData();
     const existingUserIndex = findExistingUserIndex(formData.id);
-    if(existingUserIndex === -1){
+    if (existingUserIndex === -1) {
         alert("User does not exist");
         return;
     }
@@ -160,15 +160,25 @@ function handleUpdateUser(userForm, userList){
     };
 
     const { isValid, errors } = validateUser(user);
-    if(!isValid){
+    if (!isValid) {
         alert(errors.join("\n"));
         return;
-    }   
+    }
 
+    const previousUser = { ...users[existingUserIndex] };
     updateExistingUser(existingUserIndex, user);
+
+    if (JSON.stringify(previousUser) !== JSON.stringify(users[existingUserIndex])) {
+        alert("User updated successfully");
+    } else {
+        alert("No changes were made to the user");
+    }
+
     displayUsers(userList, users);
     userForm.reset();
-   
+}
+function updateExistingUser(index, user){
+    users[index] = user;
 }
 
 function handleDeleteUser(userForm, userList){
