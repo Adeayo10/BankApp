@@ -69,7 +69,7 @@ function renderTransactionTable(transactionList, transactions) {
 //   document.getElementById("transaction-date").value = transaction.date;
 // }
 
-async function checkIfAccountNumberExistAndReturnUser(accountNumber) {
+async function checkIfAccountNumberExistAndReturnCustomer(accountNumber) {
     const response = await fetch(`../db.json`);
     const data = await response.json();
     console.log(data);
@@ -81,12 +81,12 @@ async function checkIfAccountNumberExistAndReturnUser(accountNumber) {
     return user;
 }
 
-async function displayUserName() {
+async function displayCustomerName() {
     const accountNumber = document.getElementById("transaction-customer-accountNumber").value;
     const customerName = document.getElementById("customer-name");
 
     try {
-        const user = await checkIfAccountNumberExistAndReturnUser(accountNumber);
+        const user = await checkIfAccountNumberExistAndReturnCustomer(accountNumber);
         if (user) {
             alert("Account number exists");
             customerName.value = user.name;
@@ -102,4 +102,4 @@ async function displayUserName() {
 
 
 
-export { handleGetTransactions, displayUserName };
+export { handleGetTransactions, displayCustomerName as displayUserName };
