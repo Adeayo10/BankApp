@@ -2,11 +2,12 @@ import { validateCustomer } from "../validate.js";
 import { createCustomerapi,getCustomersapi, getCustomerByIdapi  } from "../apis/customerAPI.js";
 
 
+
 async function getCustomers(customerList) {
   const response = await getCustomersapi();
-  const data = response.data;
-  const customers = data.customers;
-  displayCustomers(customerList, customers);
+  const customers = response.data
+  console.log("calling getCustomers", customers);
+  displayCustomers(customerList, customers.data);
 }
 
 
@@ -69,6 +70,7 @@ const createCustomerObject = (FormData) => {
     accountNumber: FormData.accountNumber
       ? FormData.accountNumber
       : generateAccountNumber(),
+    balance: 0.0,
   };
   return customer;
 };
@@ -106,12 +108,13 @@ const displayCustomers = (customerList, customers) => {
   const rows = customerList.querySelectorAll("tr");
   rows.forEach((row) => {
     row.addEventListener("click", () => {
-      const customerId = row.getAttribute("data-id"); 
+      const customerId = row.getAttribute("data-id");
       const customer = customers.find((c) => c.id === parseInt(customerId));
       loadCustomer(customer);
     });
   });
 };
+
 const renderCustomerTable = (customerList, customers) => {
   customerList.innerHTML = `
     <table>
@@ -171,6 +174,7 @@ async function handleSubmit(e, customerForm, customerList) {
     alert(saveResult.message);
     return;
   }
+  
   alert(saveResult.message);
   getCustomers(customerList);
   // displayCustomers(customerList, customers);
