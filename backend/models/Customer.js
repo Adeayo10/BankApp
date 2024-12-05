@@ -32,6 +32,14 @@ const Customer = db.define('customer', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    address: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+    ,balance: {
+        type: DataTypes.DOUBLE,
+        allowNull: false
+    }
 });
 
 module.exports = Customer;
