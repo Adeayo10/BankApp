@@ -28,4 +28,18 @@ export async function getCustomersapi() {
         console.error('Error:', error);
     }
 }
-export async function getCustomerByIdapi(id) {}
+export async function getCustomerByIdapi(id) {
+    const response = await fetch(`http://localhost:3000/customer/${id}`,{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        
+    });
+    try {
+        const data = await response.json();
+        return { status: response.status, message:response.message, data: data };
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}

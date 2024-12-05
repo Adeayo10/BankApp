@@ -82,12 +82,15 @@ const generateAccountNumber = () => {
   return randNum.toString().padStart(10, "0");
 };
 
-// async function findExistingCustomerIndex(customerId)  {
-//   let id = parseInt(customerId);
-//   const response = await getCustomerByIdapi(id);
-//   const data = response.data;
-//   return data
-// };
+async function findExistingCustomerIndex(customerId)  {
+  let id = parseInt(customerId);
+  const response = await getCustomerByIdapi(id);
+  if (response.status === 404) {
+    return response.message;
+  }
+  const data = response.data;
+  return data
+};
 const saveCustomer = async (customer) => {
   const response = await createCustomerapi(customer);
   return response;
@@ -182,13 +185,14 @@ async function handleSubmit(e, customerForm, customerList) {
 }
 const updateCustomer = (customerForm, customerList) => {
   const formData = getFormData();
-  const existingCustomerIndex = findExistingCustomerIndex(formData.id);
-  if (existingCustomerIndex === -1) {
+ 
+  const existingCustomer = findExistingCustomerIndex(formData.id);
+  if (existingCustomer.message === "Customer not found") {
     alert("Customer does not exist");
     return;
   }
   const customer = {
-    ...customers[existingCustomerIndex],
+    ...customer[existingCustomer.data],
     name: formData.name,
     email: formData.email,
     address: formData.address,
@@ -196,6 +200,7 @@ const updateCustomer = (customerForm, customerList) => {
     accountType: formData.accountType,
     phone: formData.phone,
   };
+
   const { isValid, errors } = validateCustomer(customer);
   if (!isValid) {
     alert(errors.join("\n"));

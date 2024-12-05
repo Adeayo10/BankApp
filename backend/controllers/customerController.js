@@ -18,11 +18,25 @@ const fetchAllCustomers = async (req, res) => {
         errorResponseMessage(res, error.message);
     }
 }
+const getCustomerById = async (req, res) => {
+    try {
+        const customer = await customers.findByPk(req.params.id);
+        if (!customer) {
+            notFoundResponseMessage(res, 'Customer not found');
+        } else {
+            successResponseMessage(res, 'Customer retrieved successfully', customer);
+        }
+    } catch (error) {
+        errorResponseMessage(res, error.message);
+    }
+}
+
+
 
 module.exports = {
     createCustomer,
     getCustomers: fetchAllCustomers,
-    // getCustomerById,
+    getCustomerById,
     // updateCustomer,
     // deleteCustomer
 }; 
