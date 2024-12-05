@@ -13,7 +13,19 @@ const createUser = async (req, res) => {
         errorResponseMessage(res, error.message);
     }
 }
-
+const fetchAllUsers = async (req, res) => {
+    try {
+        const allUsers = await user.findAll();
+        successResponseMessage(
+            res,
+            'Users retrieved successfully',
+            allUsers
+        );
+    } catch (error) {
+        errorResponseMessage(res, error.message);
+    }
+}
 module.exports = {
     createUser,
+    getUsers: fetchAllUsers,
 };

@@ -1,17 +1,11 @@
 import {validateUser} from "../validate.js";
-import { createUserAPI } from "../apis/userAPI.js";
-import { get } from "http";
-let users = [];
+import { createUserAPI, getUsersAPI } from "../apis/userAPI.js";
+
 
 async function handleGetUsers(userList) {
-    try {
-        const response = await fetch("../db.json");
-        const data = await response.json();
-        users = data.users;
-        displayUsers(userList, users);
-    } catch (error) {
-        console.error("Failed to fetch users:", error);
-    }
+    const response = await getUsersAPI();
+    const users = response.data;
+    displayUsers(userList, users.data);
 }
 
 function handleGetUsersBySearch(userList, searchValue) {

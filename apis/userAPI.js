@@ -15,3 +15,19 @@ export async function createUserAPI(user) {
 
   }
 }
+
+export async function getUsersAPI() {
+  try{
+    const response = await fetch('http://localhost:3000/user/all', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return { status: response.status, message: response.message, data: data };
+  }catch(error){
+    console.error('Error:', error);
+    return { status: 500, message: 'Internal Server Error' };
+  }
+}
