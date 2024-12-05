@@ -1,4 +1,5 @@
-const customr = require('../models/customer');
+const customr = require('../../models/Customer');
+
 function checkIfAccountNumberExistAndReturnCustomer(accountNumber) {
     const customer = customr.find((customer) => customer.accountNumber === accountNumber);
     return customer;
