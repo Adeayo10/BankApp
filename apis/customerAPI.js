@@ -34,7 +34,7 @@ export async function getCustomerByIdapi(id) {
         headers: {
             'Content-Type': 'application/json',
         },
-        
+
     });
     try {
         const data = await response.json();
@@ -43,3 +43,19 @@ export async function getCustomerByIdapi(id) {
         console.error('Error:', error);
     }
 }
+export async function updateCustomerapi(customer, id) {
+    const response = await fetch(`http://localhost:3000/customer/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(customer),
+    });
+    try {
+      const data = await response.json();
+      return { status: response.status, message: data.message };
+    } catch (error) {
+      console.error('Error:', error);
+      return { status: 500, message: 'Internal Server Error' };
+    }
+  }

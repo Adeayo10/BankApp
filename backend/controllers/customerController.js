@@ -30,13 +30,20 @@ const getCustomerById = async (req, res) => {
         errorResponseMessage(res, error.message);
     }
 }
-
+const updateCustomer = async (req, res) => {
+    try {
+        await customers.update(req.body, { where: { id: req.params.id } });
+        successResponseMessage(res, 'Customer updated successfully');
+    } catch (error) {
+        errorResponseMessage(res, error.message);
+    }
+}
 
 
 module.exports = {
     createCustomer,
     getCustomers: fetchAllCustomers,
     getCustomerById,
-    // updateCustomer,
+    updateCustomer,
     // deleteCustomer
 }; 

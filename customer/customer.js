@@ -20,10 +20,12 @@ export function initializeCustomerScripts() {
   handleGetCustomers(customerList);
 
   customerForm.addEventListener("submit", (e) => {
+    console.log("customerForm submitted");
     handleSubmit(e, customerForm, customerList);
   });
 
   updateCustomer.addEventListener("click", () => {
+    console.log("updateCustomer clicked");
     handleUpdateCustomer(customerForm, customerList);
   });
 

@@ -190,22 +190,28 @@ async function handleSubmit(e, customerForm, customerList) {
   // displayCustomers(customerList, customers);
   customerForm.reset();
 }
-const updateCustomer = (customerForm, customerList) => {
-  const formData = getFormData();
 
-  const existingCustomer = findExistingCustomerIndex(formData.id);
+const updateCustomer = async (customerForm, customerList) => {
+  const formData = getFormData();
+  const existingCustomer = await findExistingCustomerIndex(formData.id);
+
   if (existingCustomer.message === "Customer not found") {
     alert("Customer does not exist");
     return;
   }
+  console.log("existingCustomer", existingCustomer);
+
+  const customer_id = existingCustomer.data.id;
+  console.log("existingCustomerIndex", existingCustomer.id);
+
   const customer = {
-    ...customer[existingCustomer.data],
+    ...existingCustomer.data,
     name: formData.name,
     email: formData.email,
+    phone: formData.phone,
     address: formData.address,
     dateOfBirth: formData.dateOfBirth,
     accountType: formData.accountType,
-    phone: formData.phone,
   };
 
   const { isValid, errors } = validateCustomer(customer);
@@ -213,18 +219,17 @@ const updateCustomer = (customerForm, customerList) => {
     alert(errors.join("\n"));
     return;
   }
-  updateExistingCustomer(existingCustomer, customer);
-  alert("Customer updated successfully");
-  displayCustomers(customerList, customer);
+
+  const response = await updateCustomerapi(customer, customer_id);
+  if (response.status !== 200) {
+    alert(response.message);
+    return;
+  }
+
+  alert(response.message);
+  getCustomers(customerList);
   customerForm.reset();
 };
-const updateExistingCustomer = (existingCustomer, customer) => {
-  updateCustomerapi(customer, existingCustomer.id);
-}
-
-function handleUpdateCustomer(customerForm, customerList) {
-  updateCustomer(customerForm, customerList);
-}
 
 const deleteCustomer = (customerForm, customerList) => {
   const formData = getFormData();
@@ -249,6 +254,6 @@ export {
   getCustomers as handleGetCustomers,
   getCustomersbySearch as handleGetCustomersbySearch,
   handleSubmit,
-  handleUpdateCustomer,
+  updateCustomer as handleUpdateCustomer,
   handleDeleteCustomer,
 };
