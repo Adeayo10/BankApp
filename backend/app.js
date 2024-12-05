@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const db = require('./config/database');
 const customerRoute = require('./routes/customerRoute');
+const userRoute = require('./routes/userRoute');
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use('/customer', customerRoute);
+app.use('/user', userRoute);
 
 db.sync({ force: false }) // Set force to true to drop and recreate tables on every sync
   .then(() => {
