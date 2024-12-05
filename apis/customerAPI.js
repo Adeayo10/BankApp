@@ -58,4 +58,18 @@ export async function updateCustomerapi(customer, id) {
       console.error('Error:', error);
       return { status: 500, message: 'Internal Server Error' };
     }
-  }
+}
+export async function deleteCustomerapi(id) {
+    const response = await fetch(`http://localhost:3000/customer/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    try {
+      const data = await response.json();
+      return { status: response.status, message: data.message };
+    } catch (error) {
+      console.error('Error:', error);
+    }
+}

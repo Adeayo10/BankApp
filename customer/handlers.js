@@ -4,6 +4,7 @@ import {
   getCustomersapi,
   getCustomerByIdapi,
   updateCustomerapi,
+  deleteCustomerapi,
 } from "../apis/customerAPI.js";
 
 async function getCustomers(customerList) {
@@ -231,25 +232,27 @@ const updateCustomer = async (customerForm, customerList) => {
   customerForm.reset();
 };
 
-const deleteCustomer = (customerForm, customerList) => {
+const handleDeleteCustomer = async (customerForm, customerList) => {
   const formData = getFormData();
-  console.log("calling handleDeleteCustomer", formData);
-  const existingCustomerIndex = findExistingCustomerIndex(formData.id);
-  if (existingCustomerIndex === -1) {
+  const existingCustomer = await findExistingCustomerIndex(formData.id);
+
+  if (existingCustomer.message === "Customer not found") {
     alert("Customer does not exist");
     return;
   }
-  deleteExistingCustomer(existingCustomerIndex);
-  alert("Customer deleted successfully");
-  displayCustomers(customerList, customers);
+
+  const customer_id = existingCustomer.data.id;
+
+  const response = await deleteCustomerapi(customer_id);
+  if (response.status !== 200) {
+    alert(response.message);
+    return;
+  }
+
+  alert(response.message);
+  getCustomers(customerList);
   customerForm.reset();
 };
-const deleteExistingCustomer = (index) => {
-  customers.splice(index, 1);
-};
-function handleDeleteCustomer(customerForm, customerList) {
-  deleteCustomer(customerForm, customerList);
-}
 export {
   getCustomers as handleGetCustomers,
   getCustomersbySearch as handleGetCustomersbySearch,
