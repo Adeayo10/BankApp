@@ -13,12 +13,16 @@ async function handleGetUsers(userList) {
   displayUsers(userList, users.data);
 }
 
-function handleGetUsersBySearch(userList, searchValue) {
+async function handleGetUsersBySearch(userList, searchValue) {
+    const response =await getUsersAPI()
+    const users = response.data.data;
+
   const filteredUsers = users.filter((user) => {
+    const searchLower = searchValue.toLowerCase();
     return (
-      user.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchValue.toLowerCase()) ||
-      user.role.toLowerCase().includes(searchValue.toLowerCase())
+      user.name.toLowerCase().includes(searchLower) ||
+      user.email.toLowerCase().includes(searchLower) ||
+      user.role.toLowerCase().includes(searchLower)
     );
   });
   displayUsers(userList, filteredUsers);
