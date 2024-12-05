@@ -1,15 +1,17 @@
 import { validateCustomer } from "../validate.js";
-import { createCustomerapi,getCustomersapi, getCustomerByIdapi  } from "../apis/customerAPI.js";
-
-
+import {
+  createCustomerapi,
+  getCustomersapi,
+  getCustomerByIdapi,
+  updateCustomerapi,
+} from "../apis/customerAPI.js";
 
 async function getCustomers(customerList) {
   const response = await getCustomersapi();
-  const customers = response.data
+  const customers = response.data;
   console.log("calling getCustomers", customers);
   displayCustomers(customerList, customers.data);
 }
-
 
 async function getCustomersbySearch(customerList, searchValue) {
   // const filteredCustomers = customers.filter((customer) => {
@@ -82,19 +84,18 @@ const generateAccountNumber = () => {
   return randNum.toString().padStart(10, "0");
 };
 
-async function findExistingCustomerIndex(customerId)  {
+async function findExistingCustomerIndex(customerId) {
   let id = parseInt(customerId);
   const response = await getCustomerByIdapi(id);
   if (response.status === 404) {
     return response.message;
   }
   const data = response.data;
-  return data
-};
+  return data;
+}
 const saveCustomer = async (customer) => {
   const response = await createCustomerapi(customer);
   return response;
-  
 };
 const loadCustomer = (customer) => {
   document.getElementById("customer-id").value = customer.id;
@@ -102,10 +103,16 @@ const loadCustomer = (customer) => {
   document.getElementById("customer-email").value = customer.email;
   document.getElementById("customer-phone").value = customer.phone;
   document.getElementById("customer-address").value = customer.address;
-  document.getElementById("customer-dob").value = customer.dateOfBirth;
+  document.getElementById("customer-dob").value = formatDate(customer.dateOfBirth);
   document.getElementById("customer-account-type").value = customer.accountType;
 };
-
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 const displayCustomers = (customerList, customers) => {
   renderCustomerTable(customerList, customers);
   const rows = customerList.querySelectorAll("tr");
@@ -142,7 +149,7 @@ const renderCustomerTable = (customerList, customers) => {
             <td>${customer.email}</td>
             <td>${customer.phone}</td>
             <td>${customer.address}</td>
-            <td>${customer.dateOfBirth}</td>
+            <td>${formatDate(customer.dateOfBirth)}</td>
             <td>${customer.accountType}</td>
             <td>${customer.balance}</td>
             <td>${customer.accountNumber}</td>
@@ -177,7 +184,7 @@ async function handleSubmit(e, customerForm, customerList) {
     alert(saveResult.message);
     return;
   }
-  
+
   alert(saveResult.message);
   getCustomers(customerList);
   // displayCustomers(customerList, customers);
@@ -185,7 +192,7 @@ async function handleSubmit(e, customerForm, customerList) {
 }
 const updateCustomer = (customerForm, customerList) => {
   const formData = getFormData();
- 
+
   const existingCustomer = findExistingCustomerIndex(formData.id);
   if (existingCustomer.message === "Customer not found") {
     alert("Customer does not exist");
@@ -206,14 +213,15 @@ const updateCustomer = (customerForm, customerList) => {
     alert(errors.join("\n"));
     return;
   }
-  updateExistingCustomer(existingCustomerIndex, customer);
+  updateExistingCustomer(existingCustomer, customer);
   alert("Customer updated successfully");
-  displayCustomers(customerList, customers);
+  displayCustomers(customerList, customer);
   customerForm.reset();
 };
-const updateExistingCustomer = (index, customer) => {
-  customers[index] = customer;
-};
+const updateExistingCustomer = (existingCustomer, customer) => {
+  updateCustomerapi(customer, existingCustomer.id);
+}
+
 function handleUpdateCustomer(customerForm, customerList) {
   updateCustomer(customerForm, customerList);
 }
