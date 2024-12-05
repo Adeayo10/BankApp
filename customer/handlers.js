@@ -15,23 +15,9 @@ async function getCustomers(customerList) {
 }
 
 async function getCustomersbySearch(customerList, searchValue) {
-  // const filteredCustomers = customers.filter((customer) => {
-  //   const searchLower = searchValue.toLowerCase();
-  //   return (
-  //     customer.name.toLowerCase().includes(searchLower) ||
-  //     customer.email.toLowerCase().includes(searchLower) ||
-  //     customer.phone.toLowerCase().includes(searchLower) ||
-  //     customer.address.toLowerCase().includes(searchLower) ||
-  //     customer.dateOfBirth.toLowerCase().includes(searchLower) ||
-  //     customer.accountType.toLowerCase().includes(searchLower) ||
-  //     customer.accountNumber.toString().includes(searchLower)
-  //   );
-  // });
-  // displayCustomers(customerList, filteredCustomers);
   const response = await getCustomersapi();
-  const data = response.data;
-  const customers = data.customers;
-
+  const customers = response.data.data;
+  console.log("calling getCustomersbySearch", customers);
   const filteredCustomers = customers.filter((customer) => {
     const searchLower = searchValue.toLowerCase();
     return (
@@ -104,14 +90,16 @@ const loadCustomer = (customer) => {
   document.getElementById("customer-email").value = customer.email;
   document.getElementById("customer-phone").value = customer.phone;
   document.getElementById("customer-address").value = customer.address;
-  document.getElementById("customer-dob").value = formatDate(customer.dateOfBirth);
+  document.getElementById("customer-dob").value = formatDate(
+    customer.dateOfBirth
+  );
   document.getElementById("customer-account-type").value = customer.accountType;
 };
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 };
 const displayCustomers = (customerList, customers) => {
