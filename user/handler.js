@@ -4,6 +4,7 @@ import {
   getUsersAPI,
   getUserByIdAPI,
   updateUserAPI,
+deleteUserAPI,
 } from "../apis/userAPI.js";
 
 async function handleGetUsers(userList) {
@@ -177,27 +178,32 @@ async function handleUpdateUser(userForm, userList) {
   userForm.reset();
 }
 
-function handleDeleteUser(userForm, userList) {
-  deleteUser(userForm, userList);
-}
-
-function deleteUser(userForm, userList) {
+async function handleDeleteUser(userForm, userList) {
   const formData = getFormData();
-  const existingUserIndex = findExistingUserIndex(formData.id);
-  if (existingUserIndex === -1) {
+  const existingUser = await findExistingUserIndex(formData.id);
+  if (existingUser.message === "User not found") {
     alert("User does not exist");
     return;
   }
 
-  deletingExistingUser(existingUserIndex);
-  alert("User deleted successfully");
-  displayUsers(userList, users);
-  userForm.reset();
+  console.log("existingUser 150", existingUser.data.id);
+
+  const user_id = existingUser.data.id;
+
+  const response = await deleteUserAPI(user_id);
+  if (response.status !== 200) {
+    alert(response.message);
+    return;
+  }
+
+    alert(response.message);
+    handleGetUsers(userList);
+
+    userForm.reset();
 }
 
-function deletingExistingUser(index) {
-  users.splice(index, 1);
-}
+
+
 
 export {
   handleGetUsers,

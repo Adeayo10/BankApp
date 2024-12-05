@@ -46,9 +46,18 @@ const updateUser = async (req, res) => {
         errorResponseMessage(res, error.message);
     }
 }
+const deleteUser = async (req, res) => {
+    try {
+        await user.destroy({ where: { id: req.params.id } });
+        successResponseMessage(res, 'User deleted successfully');
+    } catch (error) {
+        errorResponseMessage(res, error.message);
+    }
+}
 module.exports = {
     createUser,
     getUsers: fetchAllUsers,
     getUserById,
     updateUser,
+    deleteUser,
 };
