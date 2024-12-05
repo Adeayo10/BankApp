@@ -1,33 +1,49 @@
 import { validateCustomer } from "../validate.js";
+import { createCustomerapi,getCustomersapi, getCustomerByIdapi  } from "../apis/customerAPI.js";
 
-let customers = [];
 
 async function getCustomers(customerList) {
-  try {
-    const response = await fetch("../db.json");
-    const data = await response.json();
-    customers = data.customers;
-    displayCustomers(customerList, customers);
-  } catch (error) {
-    console.error("Failed to fetch customers:", error);
-  }
+  const response = await getCustomersapi();
+  const data = response.data;
+  const customers = data.customers;
+  displayCustomers(customerList, customers);
 }
 
 
-function getCustomersbySearch(customerList, searchValue) {
+async function getCustomersbySearch(customerList, searchValue) {
+  // const filteredCustomers = customers.filter((customer) => {
+  //   const searchLower = searchValue.toLowerCase();
+  //   return (
+  //     customer.name.toLowerCase().includes(searchLower) ||
+  //     customer.email.toLowerCase().includes(searchLower) ||
+  //     customer.phone.toLowerCase().includes(searchLower) ||
+  //     customer.address.toLowerCase().includes(searchLower) ||
+  //     customer.dateOfBirth.toLowerCase().includes(searchLower) ||
+  //     customer.accountType.toLowerCase().includes(searchLower) ||
+  //     customer.accountNumber.toString().includes(searchLower)
+  //   );
+  // });
+  // displayCustomers(customerList, filteredCustomers);
+  const response = await getCustomersapi();
+  const data = response.data;
+  const customers = data.customers;
+
   const filteredCustomers = customers.filter((customer) => {
+    const searchLower = searchValue.toLowerCase();
     return (
-      customer.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-      customer.email.toLowerCase().includes(searchValue.toLowerCase()) ||
-      customer.phone.toLowerCase().includes(searchValue.toLowerCase()) ||
-      customer.address.toLowerCase().includes(searchValue.toLowerCase()) ||
-      customer.dateOfBirth.toLowerCase().includes(searchValue.toLowerCase()) ||
-      customer.accountType.toLowerCase().includes(searchValue.toLowerCase()) ||
-      parseInt(customer.accountNumber) === parseInt(searchValue)
+      customer.name.toLowerCase().includes(searchLower) ||
+      customer.email.toLowerCase().includes(searchLower) ||
+      customer.phone.toLowerCase().includes(searchLower) ||
+      customer.address.toLowerCase().includes(searchLower) ||
+      customer.dateOfBirth.toLowerCase().includes(searchLower) ||
+      customer.accountType.toLowerCase().includes(searchLower) ||
+      customer.accountNumber.toString().includes(searchLower)
     );
   });
+
   displayCustomers(customerList, filteredCustomers);
 }
+
 const getFormData = () => {
   const formData = {
     id: document.querySelector("#customer-id").value,
@@ -43,7 +59,7 @@ const getFormData = () => {
 };
 const createCustomerObject = (FormData) => {
   const customer = {
-    id: FormData.id ? parseInt(FormData.id) : customers.length + 1,
+    // id: FormData.id ? parseInt(FormData.id) : null,
     name: FormData.name,
     email: FormData.email,
     address: FormData.address,
@@ -63,21 +79,17 @@ const generateAccountNumber = () => {
 
   return randNum.toString().padStart(10, "0");
 };
-const findExistingCustomerIndex = (customerId) => {
-  let id = parseInt(customerId);
-  let customer = customers.findIndex((c) => c.id === id);
-  return customer;
-};
-const saveCustomer = (customer) => {
-  const existingCustomerIndex = findExistingCustomerIndex(customer.id);
-  if (existingCustomerIndex > -1) {
-    return {
-      isSuccessfull: false,
-      message: "Customer with the ID already exists",
-    };
-  }
-  customers.push(customer);
-  return { isSuccessfull: true, message: "Customer saved successfully" };
+
+// async function findExistingCustomerIndex(customerId)  {
+//   let id = parseInt(customerId);
+//   const response = await getCustomerByIdapi(id);
+//   const data = response.data;
+//   return data
+// };
+const saveCustomer = async (customer) => {
+  const response = await createCustomerapi(customer);
+  return response;
+  
 };
 const loadCustomer = (customer) => {
   document.getElementById("customer-id").value = customer.id;
@@ -137,15 +149,15 @@ const renderCustomerTable = (customerList, customers) => {
   `;
 };
 
-function handleSubmit(e, customerForm, customerList) {
+async function handleSubmit(e, customerForm, customerList) {
   e.preventDefault();
   const formData = getFormData();
-  const existingCustomerIndex = findExistingCustomerIndex(formData.id);
+  // const existingCustomerIndex = findExistingCustomerIndex(formData.id);
 
-  if (existingCustomerIndex > -1) {
-    alert("Customer with the ID already exists");
-    return;
-  }
+  // if (existingCustomerIndex > -1) {
+  //   alert("Customer with the ID already exists");
+  //   return;
+  // }
 
   const customer = createCustomerObject(formData);
   const { isValid, errors } = validateCustomer(customer);
@@ -154,14 +166,14 @@ function handleSubmit(e, customerForm, customerList) {
     return;
   }
 
-  const saveResult = saveCustomer(customer);
-  if (!saveResult.isSuccessfull) {
+  const saveResult = await saveCustomer(customer);
+  if (saveResult.status !== 201) {
     alert(saveResult.message);
     return;
   }
-
   alert(saveResult.message);
-  displayCustomers(customerList, customers);
+  getCustomers(customerList);
+  // displayCustomers(customerList, customers);
   customerForm.reset();
 }
 const updateCustomer = (customerForm, customerList) => {
