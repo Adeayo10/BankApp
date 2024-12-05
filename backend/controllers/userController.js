@@ -11,6 +11,7 @@ const createUser = async (req, res) => {
         createdResponseMessage(res, 'User created successfully');
     } catch (error) {
         errorResponseMessage(res, error.message);
+        console.log("aaaaa",error);
     }
 }
 const fetchAllUsers = async (req, res) => {
@@ -25,7 +26,21 @@ const fetchAllUsers = async (req, res) => {
         errorResponseMessage(res, error.message);
     }
 }
+const getUserById = async (req, res) => {
+    try {
+        const user = await user.findByPk(req.params.id);
+        if (!user) {
+            notFoundResponseMessage(res, 'User not found');
+        } else {
+            successResponseMessage(res, 'User retrieved successfully', user);
+        }
+    } catch (error) {
+        errorResponseMessage(res, error.message);
+    }
+}
+
 module.exports = {
     createUser,
     getUsers: fetchAllUsers,
+    getUserById,
 };
