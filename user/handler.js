@@ -1,5 +1,6 @@
 import {validateUser} from "../validate.js";
-
+import { createUserAPI } from "../apis/userAPI.js";
+import { get } from "http";
 let users = [];
 
 async function handleGetUsers(userList) {
@@ -81,7 +82,7 @@ function getFormData(){
 
 function createUserObject(formData){
     const user = {
-        id: formData.id? parseInt(formData.id) : users.length + 1,
+        // id: formData.id? parseInt(formData.id) : null,
         name: formData.name,
         email: formData.email,
         role: formData.role,
@@ -100,10 +101,10 @@ function handleCreateUser(e, userForm, userList){
 
     const existingUserIndex = findExistingUserIndex(formData.id);
 
-    if(existingUserIndex > -1){
-        alert("User with the ID already exists");
-        return;
-    }
+    // if(existingUserIndex > -1){
+    //     alert("User with the ID already exists");
+    //     return;
+    // }
 
     const user = createUserObject(formData);
     const { isValid, errors } = validateUser(user);
@@ -113,15 +114,13 @@ function handleCreateUser(e, userForm, userList){
     }
 
     const saveResult = saveUser(user);
-    if(!saveResult.isSuccessfull){
+    if(saveResult.status !== 201){
         alert(saveResult.message);
         return;
     }
 
     alert(saveResult.message);
-    console.log(users);
-    displayUsers(userList, users);
-    console.log(users);
+    getCustomers(userList);
 
     userForm.reset();
 }
@@ -132,14 +131,9 @@ function findExistingUserIndex(userId){
     return userIndex;
 }
 
-function saveUser(user){
-    const userIndex = findExistingUserIndex(user.id);
-    if(userIndex > -1){
-        return { isSuccessfull: false, message: "User with the ID already exists" };
-    }
-    
-    users.push(user);
-    return { isSuccessfull: true, message: "User created successfully" };
+async function saveUser(user){
+    const response = await createUserAPI(user);
+    return response;
 }
 
 function handleUpdateUser(userForm, userList) {
