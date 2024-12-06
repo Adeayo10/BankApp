@@ -9,3 +9,5 @@ const {
 router.post('/create', createTransaction);
 router.get('/all', getTransactions);
 router.get('/:accountNumber', checkIfAccountNumberExistAndReturnCustomer);
+
+module.exports = router;
