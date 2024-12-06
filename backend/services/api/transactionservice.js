@@ -1,26 +1,43 @@
-const customr = require('../../models/Customer');
+const Customer = require('../../models/customer');
 
-function checkIfAccountNumberExistAndReturnCustomer(accountNumber) {
-    const customer = customr.find((customer) => customer.accountNumber === accountNumber);
+async function accountNumberExistAndReturnCustomer(accountNumber) {
+  try {
+    const customer = await Customer.findOne({ where: { accountNumber } });
     return customer;
+  } catch (error) {
+    console.error("Error fetching customer:", error);
+    throw error;
+  }
 }
 
-function creditCustomerAccount(accountNumber, amount) {
-    const customer = customr.find((customer) => customer.accountNumber === accountNumber);
-    customer.balance += amount;
-    customr.save(customer);
-    
+async function creditCustomerAccount(accountNumber, amount) {
+  try {
+    const customer = await Customer.findOne({ where: { accountNumber } });
+    if (customer) {
+      customer.balance += amount;
+      await customer.save();
+    }
+  } catch (error) {
+    console.error("Error crediting customer account:", error);
+    throw error;
+  }
 }
 
-
-function debitCustomerAccount(accountNumber, amount) {
-    const customer = customr.find((customer) => customer.accountNumber === accountNumber);
-    customer.balance -= amount;
-    customr.save(customer);
+async function debitCustomerAccount(accountNumber, amount) {
+  try {
+    const customer = await Customer.findOne({ where: { accountNumber } });
+    if (customer) {
+      customer.balance -= amount;
+      await customer.save();
+    }
+  } catch (error) {
+    console.error("Error debiting customer account:", error);
+    throw error;
+  }
 }
 
 module.exports = {
-    accountNumberExistAndReturnCustomer: checkIfAccountNumberExistAndReturnCustomer,
-    creditCustomerAccount,
-    debitCustomerAccount,
+  accountNumberExistAndReturnCustomer,
+  creditCustomerAccount,
+  debitCustomerAccount,
 };
