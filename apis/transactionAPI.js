@@ -1,5 +1,5 @@
 export async function createTransactionAPI(transaction){
-    const response = await fetch('http://localhost:3000/transaction', {
+    const response = await fetch('http://localhost:3000/transaction/create', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export async function getTransactionsAPI(){
         },
     });
     try {
-        const data =  response.json();
+        const data = await response.json();
         return { status: response.status, message:response.message, data: data };
     } catch (error) {
         console.error('Error:', error);

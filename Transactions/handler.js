@@ -2,15 +2,16 @@ import { validateTransaction } from "../validate.js";
 import { getTransactionsAPI, checkIfAccountNumberExistAndReturnCustomerAPI, createTransactionAPI } from "../apis/transactionAPI.js";
 
 async function handleGetTransactions(transactionList) {
-    try {
-        const response = await getTransactionsAPI();
-        const transactions = response.data;
-        displayTransactions(transactionList, transactions);
-    } catch (error) {
-        console.error("Failed to fetch transactions:", error);
-    }
+  try {
+    const response = await getTransactionsAPI();
+    console.log("API Response:", response); // Log the response to check its structure
+    const transactions = response.data?.data || []; // Use optional chaining and default to an empty array
+    console.log("Transactions:", transactions);
+    displayTransactions(transactionList, transactions);
+  } catch (error) {
+    console.error("Failed to fetch transactions:", error);
+  }
 }
-
 function displayTransactions(transactionList, transactions) {
   renderTransactionTable(transactionList, transactions);
   const transactionRows = transactionList.querySelectorAll("tr");
@@ -27,34 +28,43 @@ function displayTransactions(transactionList, transactions) {
 
 function renderTransactionTable(transactionList, transactions) {
   transactionList.innerHTML = `
-        <table>
-        <thead>
+    <table>
+      <thead>
         <tr>
-            <th>Account number</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Type</th>
-            <th>Description</th>
+          <th>Account Number</th>
+          <th>Amount</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Date</th>
         </tr>
-        </thead>
-        <tbody>
+      </thead>
+      <tbody>
         ${transactions
           .map(
             (transaction) => `
-            <tr data-id="${transaction.id}">
-                <td>${transaction.accountNumber}</td>
-                <td>${transaction.amount}</td>
-                <td>${transaction.date}</td>
-                <td>${transaction.type}</td>
-                <td>${transaction.description}</td>
-            </tr>
+          <tr data-id="${transaction.id}">
+            <td>${transaction.accountNumber}</td>
+            <td>${transaction.amount}</td>
+            <td>${transaction.type}</td>
+            <td>${transaction.description}</td>
+            <td>${formatDate(transaction.date)}</td>
+          </tr>
         `
           )
           .join("")}
-        </tbody>
-        </table>
-    `;
+      </tbody>
+    </table>
+  `;
 }
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 
 // function loadTransaction(transaction) {
 //   document.getElementById("transaction-id").value = transaction.id;
@@ -128,14 +138,16 @@ function createTransactionObject(formData) {
   return transaction;
 }
 
-function saveTransaction(transaction) {
-  if (checkIfAccountNumberExistAndReturnCustomer(transaction.accountNumber)) {
-    transactions.push(transaction);
-    alert("Transaction saved successfully");
+async function saveTransaction(transaction) {
+  try {
+   const res =  await createTransactionAPI(transaction);
+   return { status: res.status, message: res.message };
+  } catch (error) {
+    console.error("Failed to save transaction:", error);
   }
 }
 
-function handleTransactionFormSubmit(e, transactionForm, transactionList) {
+async function handleTransactionFormSubmit(e, transactionForm, transactionList) {
   e.preventDefault();
   const formData = getTransactionFormData();
   const transaction = createTransactionObject(formData);
@@ -144,8 +156,13 @@ function handleTransactionFormSubmit(e, transactionForm, transactionList) {
     alert(errors.join("\n"));
     return;
   }
-  saveTransaction(transaction);
-  displayTransactions(transactionList, transactions);
+  const saveTransactionResponse = await saveTransaction(transaction);
+  if (saveTransactionResponse.status !== 201) {
+    alert(saveTransactionResponse.message);
+    return;
+  }
+  alert(saveTransactionResponse.message);
+  handleGetTransactions(transactionList);
   transactionForm.reset();
 }
 
