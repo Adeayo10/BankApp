@@ -18,7 +18,7 @@ const checkIfAccountNumberExistAndReturnCustomer = async (req, res) => {
     if (!customer) {
       notFoundResponseMessage(res, "Customer not found");
     } else {
-      successResponseMessage(res, "Customer retrieved successfully", customer); 
+      successResponseMessage(res, "Customer retrieved successfully", customer);
     }
   } catch (error) {
     errorResponseMessage(res, error.message);
@@ -35,9 +35,9 @@ const createTransaction = async (req, res) => {
 
     if (type === "deposit") {
       await creditCustomerAccount(accountNumber, amount);
-      console.log("Credited",amount);
+      console.log("Credited", amount);
     } else if (type === "withdrawal") {
-      console.log("Debited",amount);
+      console.log("Debited", amount);
       const response = await debitCustomerAccount(accountNumber, amount);
       if (response.status === 400) {
         console.log(response.message, response.status);
@@ -48,7 +48,11 @@ const createTransaction = async (req, res) => {
     }
 
     const newTransaction = await transaction.create(req.body);
-    createdResponseMessage(res, "Transaction created successfully", newTransaction);
+    createdResponseMessage(
+      res,
+      "Transaction created successfully",
+      newTransaction
+    );
   } catch (error) {
     errorResponseMessage(res, error.message);
   }
@@ -57,7 +61,11 @@ const createTransaction = async (req, res) => {
 const fetchAllTransactions = async (req, res) => {
   try {
     const transactions = await transaction.findAll();
-    successResponseMessage(res, "Transactions retrieved successfully", transactions);
+    successResponseMessage(
+      res,
+      "Transactions retrieved successfully",
+      transactions
+    );
   } catch (error) {
     errorResponseMessage(res, error.message);
   }
@@ -68,4 +76,3 @@ module.exports = {
   getTransactions: fetchAllTransactions,
   checkIfAccountNumberExistAndReturnCustomer,
 };
-
