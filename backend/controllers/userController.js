@@ -1,4 +1,5 @@
 const user = require('../models/User');
+const bcrypt = require('bcryptjs');
 const {
   createdResponseMessage,
   successResponseMessage,
@@ -7,7 +8,13 @@ const {
 
 const createUser = async (req, res) => {
     try {
-        await user.create(req.body);
+        const { name, email, password, role } = req.body;
+        const userExists = await user.findOne({ where: { email } });
+        if (userExists) {
+            return res.status(400).json({ message: 'User already exists' });
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        await user.create({ name, email, password: hashedPassword, role });
         createdResponseMessage(res, 'User created successfully');
     } catch (error) {
         errorResponseMessage(res, error.message);

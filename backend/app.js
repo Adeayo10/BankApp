@@ -6,6 +6,7 @@ const db = require('./config/database');
 const customerRoute = require('./routes/customerRoute');
 const userRoute = require('./routes/userRoute');
 const transactionRoute = require('./routes/transactionRoute');
+const authRoute = require('./routes/authRoute');
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(bodyParser.json());
 app.use('/customer', customerRoute);
 app.use('/user', userRoute);
 app.use('/transaction', transactionRoute);
+app.use('/auth', authRoute);
 
 db.sync({ force: false }) // Set force to true to drop and recreate tables on every sync
   .then(() => {
