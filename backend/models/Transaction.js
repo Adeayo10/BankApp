@@ -8,7 +8,7 @@ const Transaction = db.define('transaction', {
         autoIncrement: true
     },
     amount: {
-        type: DataTypes.DECIMAL,
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     },
     type: {
