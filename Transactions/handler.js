@@ -4,8 +4,8 @@ import { getTransactionsAPI, checkIfAccountNumberExistAndReturnCustomerAPI, crea
 async function handleGetTransactions(transactionList) {
   try {
     const response = await getTransactionsAPI();
-    console.log("API Response:", response); // Log the response to check its structure
-    const transactions = response.data?.data || []; // Use optional chaining and default to an empty array
+    console.log("API Response:", response); 
+    const transactions = response.data?.data || []; 
     console.log("Transactions:", transactions);
     displayTransactions(transactionList, transactions);
   } catch (error) {
@@ -78,16 +78,14 @@ const formatDate = (dateString) => {
 // }
 
 function handleGetTransactionBySearch(transactionList, searchValue) {
-  const filteredTransactions = transactions.filter((transaction) => {
-    return (
-      transaction.accountNumber.toString().includes(searchValue) ||
-      transaction.amount.toString().includes(searchValue) ||
-      transaction.date.includes(searchValue) ||
-      transaction.type.includes(searchValue) ||
-      transaction.description.includes(searchValue)
-    );
+  const transactions = transactionList.querySelectorAll("tr");
+  let found = false;
+  transactions.forEach((transaction) => {
+    const match = transaction.textContent.toLowerCase().includes(searchValue.toLowerCase());
+    transaction.style.display = match ? "table-row" : "none";
+    if (match) found = true;
   });
-  displayTransactions(transactionList, filteredTransactions);
+  if (!found) alert("No transactions found for the search term.");
 }
 async function checkIfAccountNumberExistAndReturnCustomer(accountNumber) {
   try {
