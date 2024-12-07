@@ -59,7 +59,7 @@ const createCustomerObject = (FormData) => {
     accountNumber: FormData.accountNumber
       ? FormData.accountNumber
       : generateAccountNumber(),
-    balance: 0.0,
+    balance: 0,
   };
   return customer;
 };

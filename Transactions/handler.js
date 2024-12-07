@@ -113,6 +113,9 @@ async function displayCustomerName() {
     alert("Customer found");
     document.getElementById("customer-name").value = customerName;
   }
+  else {
+    alert("Customer not found");
+  }
 }
 
 function getTransactionFormData() {
