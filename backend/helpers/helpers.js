@@ -10,7 +10,7 @@ export function errorResponseMessage(res, message) {
   res.status(500).json({ status: "error", message });
 }
 export function notFoundResponseMessage(res, message) {
-  res.status(404).json({ status: "errorss", message });
+  res.status(404).json({ status: "errors", message });
 }
 
 export function badRequestResponseMessage(res, message) {
