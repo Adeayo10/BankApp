@@ -37,7 +37,7 @@ const Customer = db.define('customer', {
         allowNull: false
     }
     ,balance: {
-        type: DataTypes.DOUBLE,
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false
     }
 });
