@@ -97,7 +97,9 @@ function createUserObject(formData) {
 }
 
 function generatePassword() {
-  return Math.random().toString(36).slice(-8);
+  const password = Math.random().toString(36).slice(-8);
+  console.log("password", password);
+  return password;
 }
 async function saveUser(user) {
   const response = await createUserAPI(user);

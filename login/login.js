@@ -1,14 +1,14 @@
-import { handleSubmit } from './loginService.js';
-document.addEventListener('DOMContentLoaded', function() {
+import { handleSubmit } from "./handler.js";
 
-    const loginForm = document.getElementById('login-form');
+function initializeLoginScripts(){
 
-    loginForm.addEventListener("submit", (e) => {
-        console.log("login form submitted");
-        handleSubmit(e);
-      });
-});
+  const loginForm = document.querySelector("#login-form");
 
+  loginForm.addEventListener("submit", (e) => {
+    console.log("loginForm submitted");
+    handleSubmit(e);
+  });
 
+}
 
-    
+export { initializeLoginScripts };

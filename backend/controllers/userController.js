@@ -23,6 +23,7 @@ const createUser = async (req, res) => {
 }
 const fetchAllUsers = async (req, res) => {
     try {
+        
         const allUsers = await user.findAll();
         successResponseMessage(
             res,
