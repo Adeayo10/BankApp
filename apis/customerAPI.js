@@ -1,8 +1,11 @@
+const getToken = () => localStorage.getItem('token');
+
 export async function createCustomerapi(customer){
     const response = await fetch('http://localhost:3000/customer/create', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': getToken(),
         },
         body: JSON.stringify(customer),
     });
@@ -19,6 +22,7 @@ export async function getCustomersapi() {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': getToken(),
         },
     });
     try {
@@ -33,6 +37,7 @@ export async function getCustomerByIdapi(id) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': getToken(),
         },
 
     });
@@ -48,6 +53,7 @@ export async function updateCustomerapi(customer, id) {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': getToken(),
       },
       body: JSON.stringify(customer),
     });
@@ -64,6 +70,7 @@ export async function deleteCustomerapi(id) {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': getToken(),
       },
     });
     try {

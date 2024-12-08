@@ -1,9 +1,11 @@
+const getToken = () => localStorage.getItem("token");
 export async function createUserAPI(user) {
   try {
     const response = await fetch("http://localhost:3000/user/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization":  getToken()
       },
       body: JSON.stringify(user),
     });
@@ -21,6 +23,8 @@ export async function getUsersAPI() {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": getToken()
+      
       },
     });
     const data = await response.json();
@@ -37,6 +41,7 @@ export async function getUserByIdAPI(id) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": getToken()
       },
     });
     const data = await response.json();
@@ -53,6 +58,7 @@ export async function updateUserAPI(user, id) {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": getToken()
       },
       body: JSON.stringify(user),
     });
@@ -69,6 +75,7 @@ export async function deleteUserAPI(id) {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": getToken()
       },
     });
     const data = await response.json();

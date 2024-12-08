@@ -1,8 +1,10 @@
+const getToken = () => localStorage.getItem('token');
 export async function createTransactionAPI(transaction){
     const response = await fetch('http://localhost:3000/transaction/create', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': getToken(),
         },
         body: JSON.stringify(transaction),
     });
@@ -20,6 +22,7 @@ export async function checkIfAccountNumberExistAndReturnCustomerAPI(accountNumbe
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': getToken(),
         },
     });
     try {
@@ -34,6 +37,7 @@ export async function getTransactionsAPI(){
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            Authorization: getToken(),
         },
     });
     try {
