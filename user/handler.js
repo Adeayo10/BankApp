@@ -47,7 +47,7 @@ function renderUserTable(userList, users) {
                     <th>Name</th>
                     <th>Email
                     <th>Role</th>
-                    <th>Password</th>
+                   
                 </tr>
             </thead>
             <tbody>
@@ -58,7 +58,7 @@ function renderUserTable(userList, users) {
                         <td>${user.name}</td>
                         <td>${user.email}</td>
                         <td>${user.role}</td>
-                        <td>${user.password}</td>
+                       
                     </tr>
                 `
                   )

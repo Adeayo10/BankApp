@@ -5,6 +5,7 @@ const {
   successResponseMessage,
   errorResponseMessage,
 } = require('../helpers/helpers');
+const { sendUserCreationEmail } = require('../services/api/emailservice');
 
 const createUser = async (req, res) => {
     try {
@@ -13,8 +14,14 @@ const createUser = async (req, res) => {
         if (userExists) {
             return res.status(400).json({ message: 'User already exists' });
         }
+        // const userPassword = req.body.password;
         const hashedPassword = await bcrypt.hash(password, 10);
-        await user.create({ name, email, password: hashedPassword, role });
+        const createdUser = user.create({ name, email, password: hashedPassword, role });
+        if (!createdUser) {
+            errorResponseMessage(res, 'Error creating user');
+        }
+        await sendUserCreationEmail(req.body);
+
         createdResponseMessage(res, 'User created successfully');
     } catch (error) {
         errorResponseMessage(res, error.message);
