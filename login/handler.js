@@ -1,4 +1,5 @@
 import { login } from "../apis/authAPI.js";
+import { initializeCustomerScripts } from "../customer/customer.js";
 
 
 async function handleSubmit(e) {
@@ -17,6 +18,7 @@ async function handleSubmit(e) {
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', JSON.stringify(response.user));
             alert(response.message);
+            updateLoginLogoutLink();
             await loadCustomerSection();
             
             
@@ -34,6 +36,31 @@ async function loadCustomerSection() {
     const data = await response.text();
     mainContent.innerHTML = data;
     initializeCustomerScripts();
+}
+
+function updateLoginLogoutLink() {
+    const loadLoginLink = document.querySelector("#load-login");
+    const token = localStorage.getItem('token');
+    if (token) {
+        loadLoginLink.textContent = 'Logout';
+        loadLoginLink.addEventListener('click', handleLogout);
+    } else {
+        loadLoginLink.textContent = 'Login';
+        loadLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loadContent("./views/components/login.html", initializeLoginScripts);
+            console.log("Load login clicked");
+        });
+    }
+}
+
+function handleLogout(e) {
+    e.preventDefault();
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    alert('Logged out successfully');
+    updateLoginLogoutLink();
+    loadContent("./views/components/login.html", initializeLoginScripts);
 }
 export { handleSubmit };
 
