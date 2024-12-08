@@ -52,11 +52,20 @@ describe('Customer CRUD Operations', () => {
       .get('/customer/all')
       .set('Authorization', testToken);
 
-    console.log('Response:', res.body);
+    
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty('data');
     expect(Array.isArray(res.body.data)).toBe(true);
   });
 
+  it('should fetch a customer by ID', async () => {
+    const res = await request(app)
+      .get(`/customer/1}`)
+      .set('Authorization',testToken);
 
+    console.log('Response:', res.body);
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty('data');
+    expect(typeof res.body.data).toBe('object');
+  });
 });
