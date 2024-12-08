@@ -13,7 +13,7 @@ async function handleSubmit(e) {
     };
     try {
         const response = await login(loginData);
-        if (response.status === 200) {
+        if (response.token?.length > 0) {
             console.log(response.message);
             localStorage.setItem('token', response.token);
             localStorage.setItem('user', JSON.stringify(response.user));
@@ -21,9 +21,9 @@ async function handleSubmit(e) {
             updateLoginLogoutLink();
             await loadCustomerSection();
             
-            
         } else {
             console.error(response.message);
+            alert(response.message);
         }
     } catch (error) {
         console.error(error);
@@ -53,6 +53,14 @@ function updateLoginLogoutLink() {
         });
     }
 }
+function loadContent(url, callback) {
+    fetch(url)
+      .then((response) => response.text())
+      .then((data) => {
+        mainContent.innerHTML = data;
+        callback();
+      });
+  }
 
 function handleLogout(e) {
     e.preventDefault();
