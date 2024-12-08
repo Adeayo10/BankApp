@@ -27,4 +27,38 @@ const sendAccountCreationEmail = async (customer) => {
   }
 };
 
-module.exports = { sendAccountCreationEmail };
+const sendTransactionEmail = async (transaction) => {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: transaction.email,
+    subject: 'Transaction Alert',
+    text: `Dear ${transaction.name},\n\nYour transaction of ${transaction.amount} was successful.\n\nBest regards,\nCore Banking Application`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully');
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
+}
+const sendUserCreationEmail = async (user) => {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: user.email,
+    subject: 'User Created Successfully',
+    text: `Dear ${user.name},\n\n Your password is ${user.password} and username ${user.email} .\n\nBest regards,\nCore Banking Application`,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully');
+  } catch (error) {
+    console.error('Error sending email:', error);
+  }
+}
+module.exports = {
+  sendAccountCreationEmail,
+  sendTransactionEmail,
+  sendUserCreationEmail,
+};
