@@ -13,7 +13,8 @@ const Customer = db.define('customer', {
     },
     email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     phone: {
         type: DataTypes.STRING,
@@ -30,7 +31,8 @@ const Customer = db.define('customer', {
     },
     accountNumber: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     address: {
         type: DataTypes.STRING,
