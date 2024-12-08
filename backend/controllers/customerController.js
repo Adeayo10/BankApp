@@ -7,6 +7,7 @@ const {
 const { sendAccountCreationEmail } = require("../services/api/emailservice");
 const createCustomer = async (req, res) => {
   try {
+    console.log("request body",req.body);
     const customer = await customers.create(req.body);
     if (!customer) {
       errorResponseMessage(res, "Error creating customer");
@@ -14,6 +15,7 @@ const createCustomer = async (req, res) => {
     await sendAccountCreationEmail(req.body);
     createdResponseMessage(res, "Customer created successfully");
   } catch (error) {
+    console.log("error creating customer",error);
     errorResponseMessage(res, error.message);
   }
 };
