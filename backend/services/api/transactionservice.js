@@ -1,4 +1,4 @@
-const Customer = require('../../models/Customer');
+const Customer = require('../../models/customer');
 const Decimal = require('decimal.js');
 async function accountNumberExistAndReturnCustomer(accountNumber) {
   try {
