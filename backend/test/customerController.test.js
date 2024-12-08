@@ -83,4 +83,13 @@ describe('Customer CRUD Operations', () => {
     expect(res.status).toBe(200);
     expect(res.body).toHaveProperty('message', 'Customer updated successfully');
   });
+
+   it('should delete a customer', async () => {
+     const res = await request(app)
+       .delete(`/customer/1`)
+       .set('Authorization', testToken);
+
+     expect(res.status).toBe(200);
+     expect(res.body).toHaveProperty('message', 'Customer deleted successfully');
+   });
 });
