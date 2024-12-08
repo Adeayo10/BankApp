@@ -1,4 +1,5 @@
 const express = require('express');
+const authenticateToken = require('../middleware/middleware');
 const router = express.Router();
 const {
   createUser,
@@ -8,10 +9,10 @@ const {
   deleteUser,
 } = require('../controllers/userController');
 
-router.post('/create', createUser);
-router.get('/all', getUsers);
-router.get('/:id', getUserById);
-router.put('/:id', updateUser);
-router.delete('/:id', deleteUser);
+router.post('/create', authenticateToken, createUser);
+router.get('/all', authenticateToken, getUsers);
+router.get('/:id',authenticateToken, getUserById);
+router.put('/:id',authenticateToken, updateUser);
+router.delete('/:id',authenticateToken, deleteUser);
 
 module.exports = router;

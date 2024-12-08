@@ -1,4 +1,5 @@
 const express = require('express');
+const authenticateToken = require('../middleware/middleware');
 const router = express.Router();
 const {
   createTransaction,
@@ -6,8 +7,8 @@ const {
   checkIfAccountNumberExistAndReturnCustomer,
 } = require('../controllers/transactionController');
 
-router.post('/create', createTransaction);
-router.get('/all', getTransactions);
-router.get('/:accountNumber', checkIfAccountNumberExistAndReturnCustomer);
+router.post('/create', authenticateToken, createTransaction);
+router.get('/all',authenticateToken, getTransactions);
+router.get('/:accountNumber',authenticateToken, checkIfAccountNumberExistAndReturnCustomer);
 
 module.exports = router;
