@@ -44,4 +44,19 @@ describe('Customer CRUD Operations', () => {
     expect(res.body).toHaveProperty('message', 'Customer created successfully');
    
   });
+
+  
+
+  it('should fetch all customers', async () => {
+    const res = await request(app)
+      .get('/customer/all')
+      .set('Authorization', testToken);
+
+    console.log('Response:', res.body);
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty('data');
+    expect(Array.isArray(res.body.data)).toBe(true);
+  });
+
+
 });
