@@ -33,13 +33,17 @@ const fetchAllCustomers = async (req, res) => {
 };
 const getCustomerById = async (req, res) => {
   try {
+    console.log(`Fetching customer with ID: ${req.params.id}`);
     const customer = await customers.findByPk(req.params.id);
     if (!customer) {
+      console.log("Customer not found");
       notFoundResponseMessage(res, "Customer not found");
     } else {
+      console.log("Customer retrieved successfully", customer);
       successResponseMessage(res, "Customer retrieved successfully", customer);
     }
   } catch (error) {
+    console.error("Error fetching customer by ID:", error);
     errorResponseMessage(res, error.message);
   }
 };
