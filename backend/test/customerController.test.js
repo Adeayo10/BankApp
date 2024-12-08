@@ -68,4 +68,19 @@ describe('Customer CRUD Operations', () => {
     expect(res.body).toHaveProperty('data');
     expect(typeof res.body.data).toBe('object');
   });
+
+  it('should update a customer', async () => {
+    const updatedCustomer = {
+      name: 'John Doe Updated',
+      email: 'johnupdated@example.com',
+    };
+
+    const res = await request(app)
+      .put(`/customer/1`)
+      .set('Authorization', testToken)
+      .send(updatedCustomer);
+
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty('message', 'Customer updated successfully');
+  });
 });
