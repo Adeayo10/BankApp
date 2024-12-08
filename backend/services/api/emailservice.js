@@ -27,12 +27,12 @@ const sendAccountCreationEmail = async (customer) => {
   }
 };
 
-const sendTransactionEmail = async (transaction) => {
+const sendTransactionEmail = async (email, name, description) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: transaction.email,
+    to: email,
     subject: 'Transaction Alert',
-    text: `Dear ${transaction.name},\n\nYour transaction of ${transaction.amount} was successful.\n\nBest regards,\nCore Banking Application`,
+    text: `Dear ${name},\n\n${description}.\n\nBest regards,\nCore Banking Application`,
   };
 
   try {
@@ -41,7 +41,8 @@ const sendTransactionEmail = async (transaction) => {
   } catch (error) {
     console.error('Error sending email:', error);
   }
-}
+};
+
 const sendUserCreationEmail = async (user) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
