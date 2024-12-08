@@ -1,5 +1,6 @@
 import { login } from "../apis/authAPI.js";
-import { initializeCustomerScripts } from "../customer/customer.js";
+import { initializeCustomerScripts, } from "../customer/customer.js";
+import { initializeLoginScripts } from "./login.js";
 
 
 async function handleSubmit(e) {
@@ -54,6 +55,7 @@ function updateLoginLogoutLink() {
     }
 }
 function loadContent(url, callback) {
+    const mainContent = document.querySelector("#main-content");
     fetch(url)
       .then((response) => response.text())
       .then((data) => {
