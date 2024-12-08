@@ -12,7 +12,6 @@ dotenv.config();
 
 const app = express();
 
-
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -21,12 +20,12 @@ app.use('/user', userRoute);
 app.use('/transaction', transactionRoute);
 app.use('/auth', authRoute);
 
-db.sync({ force: false }) // Set force to true to drop and recreate tables on every sync
+db.sync({ force: false })
   .then(() => {
     console.log('Database synchronized');
   })
   .catch(err => {
     console.error('Error synchronizing database:', err);
   });
-  
+
 module.exports = app;
