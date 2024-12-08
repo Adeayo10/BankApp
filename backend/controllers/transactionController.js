@@ -10,6 +10,7 @@ const {
   debitCustomerAccount,
 } = require("../services/api/transactionservice");
 const transaction = require("../models/Transaction");
+const {sendTransactionEmail} = require("../services/api/emailservice");
 
 const checkIfAccountNumberExistAndReturnCustomer = async (req, res) => {
   try {
@@ -33,19 +34,22 @@ const createTransaction = async (req, res) => {
       return notFoundResponseMessage(res, "Customer not found");
     }
 
+    let description;
     if (type === "deposit") {
       await creditCustomerAccount(accountNumber, amount);
-      console.log("Credited", amount);
+      description = `Deposit of ${amount} to account ${accountNumber}`;
     } else if (type === "withdrawal") {
-      console.log("Debited", amount);
       const response = await debitCustomerAccount(accountNumber, amount);
       if (response.status === 400) {
-        console.log(response.message, response.status);
         return errorResponseMessage(res, response.message);
       }
+      description = `Withdrawal of ${amount} from account ${accountNumber}`;
     } else {
       return errorResponseMessage(res, "Invalid transaction type");
     }
+
+    const { email, name } = customer;
+    await sendTransactionEmail(email, name, description);
 
     const newTransaction = await transaction.create(req.body);
     createdResponseMessage(
