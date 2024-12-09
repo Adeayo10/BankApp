@@ -55,5 +55,15 @@ beforeAll(async () => {
     expect(sendAccountCreationEmail).toHaveBeenCalledWith(customer);
 
 
+    const transaction = { accountNumber: '1234567890', amount: 100, type: 'deposit', description: 'Deposit transaction' };
     
+    const transactionResponse = await request(app)
+      .post("/transaction/create")
+      .set("Authorization", testToken)
+      .send(transaction)
+      .expect(201);
+
+    expect(transactionResponse.body.message).toBe('Transaction created successfully');
+    expect(sendTransactionEmail).toHaveBeenCalledWith('john@example.com', 'John Doe', 'Deposit of 100 to account 1234567890');
+  });
 });
