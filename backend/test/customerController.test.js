@@ -2,7 +2,7 @@ const request = require('supertest');
 const app = require('../app.js');
 const sequelize = require('../config/database');
 const User = require('../models/User');
-const Customer = require('../models/customer');
+const Customer = require('../models/Customer');
 const Transaction = require('../models/Transaction');
 const generateTestToken = require('../controllers/loginController.js').generateTestToken;
 

@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../app');
-const Customer = require('../models/customer');
+const Customer = require('../models/Customer');
 const Transaction = require('../models/Transaction');
 const { sendAccountCreationEmail } = require('../services/api/emailservice');
 const { sendTransactionEmail } = require('../services/api/emailservice');

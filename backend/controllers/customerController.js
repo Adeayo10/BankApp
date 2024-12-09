@@ -1,4 +1,4 @@
-const customers = require("../models/customer");
+const customers = require("../models/Customer");
 const {
   createdResponseMessage,
   successResponseMessage,
@@ -8,7 +8,7 @@ const { sendAccountCreationEmail } = require("../services/api/emailservice");
 const createCustomer = async (req, res) => {
   try {
     console.log("request body",req.body);
-    const customer = await customers.create(req.body);
+    const customer = await customers.create(req.body); insert 
     if (!customer) {
       errorResponseMessage(res, "Error creating customer");
     }
