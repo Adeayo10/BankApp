@@ -16,5 +16,44 @@ jest.mock('../services/api/transactionservice');
 
 describe('Integration Test', () => {
 
-
+beforeAll(async () => {
+    testToken = generateTestToken();
+    await sequelize.sync({ force: true });
+  }); 
+  afterAll(async () => {
+    await sequelize.close();
   });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test('should create a customer and then create a transaction', async () => {
+    Customer.create.mockResolvedValue({ id: 1, name: 'John Doe', email: 'john@example.com' });
+    Transaction.create.mockResolvedValue({ id: 1, accountNumber: '1234567890', amount: 100, type: 'credit' });
+    sendAccountCreationEmail.mockResolvedValue();
+    sendTransactionEmail.mockResolvedValue();
+    accountNumberExistAndReturnCustomer.mockResolvedValue({ id: 1, name: 'John Doe', email: 'john@example.com' });
+
+    const customer = {
+        name: 'John Doe',
+        email: 'john@example.com',
+        phone: '1234567890',
+        address: '123 Main St',
+        dateOfBirth: '1990-01-01',
+        accountType: 'savings',
+        accountNumber: '1234567890',
+        balance: 0,
+      };
+
+    const customerResponse = await request(app)
+      .post('/customer/create')
+      .set('Authorization', testToken)
+      .send(customer)
+      .expect(201);
+      console.log('Response:', customerResponse.body);
+    expect(customerResponse.body.message).toBe('Customer created successfully');
+    expect(sendAccountCreationEmail).toHaveBeenCalledWith(customer);
+
+
+    
+});
