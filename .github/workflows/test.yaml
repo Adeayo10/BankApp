@@ -1,0 +1,59 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:5.7
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: core_banking
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Wait for MySQL to be ready
+      run: |
+        until mysqladmin ping -h "127.0.0.1" --silent; do
+          echo 'waiting for mysql to be ready...'
+          sleep 5
+        done
+
+    - name: Run tests
+      env:
+        DB_HOST: 127.0.0.1
+        DB_USER: root
+        DB_PASSWORD: root
+        DB_NAME: core_banking
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        EMAIL_USER: ${{ secrets.EMAIL_USER }}
+        EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
+      run: npm test
