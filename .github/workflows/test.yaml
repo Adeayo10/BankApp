@@ -39,6 +39,7 @@ jobs:
 
     - name: Install dependencies
       run: npm install
+      working-directory: ./backend
 
     - name: Wait for MySQL to be ready
       run: |
@@ -57,3 +58,4 @@ jobs:
         EMAIL_USER: ${{ secrets.EMAIL_USER }}
         EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
       run: npm test
+      working-directory: ./backend
