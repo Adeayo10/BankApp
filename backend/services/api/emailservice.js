@@ -42,7 +42,6 @@ const sendTransactionEmail = async (email, name, description) => {
     console.error('Error sending email:', error);
   }
 };
-
 const sendUserCreationEmail = async (user) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
