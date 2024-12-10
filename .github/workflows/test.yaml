@@ -60,4 +60,15 @@ jobs:
       run: npm test
       working-directory: ./backend
 
-      
+    - name: Deploy to Elastic Beanstalk
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+        AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      run: |
+        zip -r deploy.zip * .[^.]*
+        aws s3 cp deploy.zip s3://elasticbeanstalk-$AWS_REGION-$AWS_ACCOUNT_ID/deploy.zip
+        aws elasticbeanstalk create-application-version --application-name your-app-name --version-label $GITHUB_SHA --source-bundle S3Bucket="elasticbeanstalk-$AWS_REGION-$AWS_ACCOUNT_ID",S3Key="deploy.zip"
+        aws elasticbeanstalk update-environment --application-name your-app-name --environment-name your-environment-name --version-label $GITHUB_SHA
+      working-directory: ./backend
