@@ -33,6 +33,7 @@ describe('Customer CRUD Operations', () => {
       balance: 0,
     };
 
+    
     const res = await request(app)
       .post('/customer/create')
       .set('Authorization', testToken)
