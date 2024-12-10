@@ -37,7 +37,7 @@ describe('Customer CRUD Operations', () => {
     const res = await request(app)
       .post('/customer/create')
       .set('Authorization', testToken)
-      .send(customers);
+      .send(customer);
 
     console.log('Response:', res.body); 
 
