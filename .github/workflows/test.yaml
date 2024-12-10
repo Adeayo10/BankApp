@@ -66,7 +66,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
       run: |
-        until [ "$(aws elasticbeanstalk describe-environments --application-name your-actual-app-name --environment-names your-actual-environment-name --query 'Environments[0].Status' --output text)" = "Ready" ]; do
+        until [ "$(aws elasticbeanstalk describe-environments --application-name BankApp --environment-names your-environment-name --query 'Environments[0].Status' --output text)" = "Ready" ]; do
           echo 'waiting for environment to be ready...'
           sleep 30
         done
