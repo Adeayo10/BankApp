@@ -15,10 +15,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use('/customer', customerRoute);
-app.use('/user', userRoute);
-app.use('/transaction', transactionRoute);
-app.use('/auth', authRoute);
+app.use('/api/customer', customerRoute);
+app.use('/api/user', userRoute);
+app.use('/api/transaction', transactionRoute);
+app.use('/api/auth', authRoute);
 
 db.sync({ force: false })
   .then(() => {

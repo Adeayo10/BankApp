@@ -1,6 +1,6 @@
 const getToken = () => localStorage.getItem('token');
 export async function createTransactionAPI(transaction){
-    const response = await fetch('http://localhost:3000/transaction/create', {
+    const response = await fetch('/api/transaction/create', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -18,7 +18,7 @@ export async function createTransactionAPI(transaction){
 }
 
 export async function checkIfAccountNumberExistAndReturnCustomerAPI(accountNumber){
-    const response = await fetch(`http://localhost:3000/transaction/${accountNumber}`, {
+    const response = await fetch(`/api/transaction/${accountNumber}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export async function checkIfAccountNumberExistAndReturnCustomerAPI(accountNumbe
     }
 }
 export async function getTransactionsAPI(){
-    const response =await fetch('http://localhost:3000/transaction/all',{
+    const response =await fetch('/api/transaction/all',{
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
