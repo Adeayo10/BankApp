@@ -111,7 +111,7 @@ jobs:
           echo "Current environment status: $STATUS"
           if [ "$STATUS" = "Ready" ]; then
             echo 'Environment is ready for update.'
-            sleep 60  # Add a delay to ensure the environment is consistently ready
+            sleep 180  # Add a delay of 3 minutes to ensure the environment is consistently ready
             STATUS=$(aws elasticbeanstalk describe-environments --application-name BankApp --environment-names BankApp --query 'Environments[0].Status' --output text)
             if [ "$STATUS" = "Ready" ]; then
               break
