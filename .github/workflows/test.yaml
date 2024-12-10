@@ -66,7 +66,7 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
       run: |
-        until [ "$(aws elasticbeanstalk describe-environments --application-name BankApp --environment-names your-environment-name --query 'Environments[0].Status' --output text)" = "Ready" ]; do
+        until [ "$(aws elasticbeanstalk describe-environments --application-name BankApp --environment-names BankApp  --query 'Environments[0].Status' --output text)" = "Ready" ]; do
           echo 'waiting for environment to be ready...'
           sleep 30
         done
@@ -81,5 +81,5 @@ jobs:
         zip -r deploy.zip * .[^.]*
         aws s3 cp deploy.zip s3://elasticbeanstalk-${{ secrets.AWS_REGION }}-${{ secrets.AWS_ACCOUNT_ID }}/deploy.zip
         aws elasticbeanstalk create-application-version --application-name BankApp --version-label $GITHUB_SHA --source-bundle S3Bucket="elasticbeanstalk-${{ secrets.AWS_REGION }}-${{ secrets.AWS_ACCOUNT_ID }}",S3Key="deploy.zip"
-        aws elasticbeanstalk update-environment --application-name BankApp --environment-name your-environment-name --version-label $GITHUB_SHA
+        aws elasticbeanstalk update-environment --application-name BankApp --environment-name BankApp --version-label $GITHUB_SHA
       working-directory: ./backend
