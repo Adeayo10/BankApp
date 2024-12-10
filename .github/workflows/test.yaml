@@ -59,3 +59,4 @@ jobs:
         EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
       run: npm test
       working-directory: ./backend
+      
