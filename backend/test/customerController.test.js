@@ -35,7 +35,7 @@ describe('Customer CRUD Operations', () => {
 
 
     const res = await request(app)
-      .post('/customer/create')
+      .post('/api/customer/create')
       .set('Authorization', testToken)
       .send(customer);
 
@@ -50,7 +50,7 @@ describe('Customer CRUD Operations', () => {
 
   it('should fetch all customers', async () => {
     const res = await request(app)
-      .get('/customer/all')
+      .get('/api/customer/all')
       .set('Authorization', testToken);
 
     
@@ -61,7 +61,7 @@ describe('Customer CRUD Operations', () => {
 
   it('should fetch a customer by ID', async () => {
     const res = await request(app)
-      .get(`/customer/1}`)
+      .get(`/api/customer/1}`)
       .set('Authorization',testToken);
 
     console.log('Response:', res.body);
@@ -77,7 +77,7 @@ describe('Customer CRUD Operations', () => {
     };
 
     const res = await request(app)
-      .put(`/customer/1`)
+      .put(`/api/customer/1`)
       .set('Authorization', testToken)
       .send(updatedCustomer);
 
@@ -87,7 +87,7 @@ describe('Customer CRUD Operations', () => {
 
    it('should delete a customer', async () => {
      const res = await request(app)
-       .delete(`/customer/1`)
+       .delete(`/api/customer/1`)
        .set('Authorization', testToken);
 
      expect(res.status).toBe(200);
