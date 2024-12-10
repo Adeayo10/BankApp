@@ -1,6 +1,6 @@
 import { initializeCustomerScripts } from "./customer/customer.js";
 import { initializeUserScripts } from "./user/user.js";
-import { initializeTransactionScripts } from "./transactions/transaction.js";
+import { initializeTransactionScripts } from "./Transactions/transaction.js";
 import { initializeLoginScripts } from "./login/login.js";
 
 document.addEventListener("DOMContentLoaded", () => {
