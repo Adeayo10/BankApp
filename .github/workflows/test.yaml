@@ -178,6 +178,7 @@ jobs:
           STATUS=$(aws elasticbeanstalk describe-environments --application-name BankApp --environment-names BankApp --query 'Environments[0].Status' --output text)
           echo "Current environment status: $STATUS"
           if [ "$STATUS" = "Ready" ]; then
+            echo 'Environment is ready.'
             break
           fi
           echo 'Waiting for environment to be ready...'
@@ -199,10 +200,12 @@ jobs:
           STATUS=$(aws elasticbeanstalk describe-environments --application-name BankApp --environment-names BankApp --query 'Environments[0].Status' --output text)
           echo "Current environment status: $STATUS"
           if [ "$STATUS" = "Ready" ]; then
+            echo 'Environment is ready for update.'
             break
           fi
           echo 'Waiting for environment to be ready...'
           sleep 30
         done
+        echo 'Updating environment...'
         aws elasticbeanstalk update-environment --application-name BankApp --environment-name BankApp --version-label $GITHUB_SHA
       working-directory: ./backend
