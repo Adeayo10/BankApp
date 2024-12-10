@@ -46,7 +46,7 @@ beforeAll(async () => {
       };
 
     const customerResponse = await request(app)
-      .post('/customer/create')
+      .post('/api/customer/create')
       .set('Authorization', testToken)
       .send(customer)
       .expect(201);
@@ -58,7 +58,7 @@ beforeAll(async () => {
     const transaction = { accountNumber: '1234567890', amount: 100, type: 'deposit', description: 'Deposit transaction' };
     
     const transactionResponse = await request(app)
-      .post("/transaction/create")
+      .post("/api/transaction/create")
       .set("Authorization", testToken)
       .send(transaction)
       .expect(201);
