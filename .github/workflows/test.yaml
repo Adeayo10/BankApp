@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Run Tests
 
 on:
   push:
@@ -58,68 +58,4 @@ jobs:
         EMAIL_USER: ${{ secrets.EMAIL_USER }}
         EMAIL_PASS: ${{ secrets.EMAIL_PASS }}
       run: npm test
-      working-directory: ./backend
-
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
-
-    - name: Install dependencies
-      run: npm install
-      working-directory: ./backend
-
-    - name: Wait for environment to be ready
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: ${{ secrets.AWS_REGION }}
-      run: |
-        echo 'Checking environment status...'
-        while true; do
-          STATUS=$(aws elasticbeanstalk describe-environments --application-name BankApp --environment-names BankApp --query 'Environments[0].Status' --output text)
-          echo "Current environment status: $STATUS"
-          if [ "$STATUS" = "Ready" ]; then
-            echo 'Environment is ready.'
-            break
-          fi
-          echo 'Waiting for environment to be ready...'
-          sleep 30
-        done
-
-    - name: Deploy to Elastic Beanstalk
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_REGION: ${{ secrets.AWS_REGION }}
-        AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-      run: |
-        zip -r deploy.zip * .[^.]*
-        aws s3 cp deploy.zip s3://elasticbeanstalk-${{ secrets.AWS_REGION }}-${{ secrets.AWS_ACCOUNT_ID }}/deploy.zip
-        aws elasticbeanstalk create-application-version --application-name BankApp --version-label $GITHUB_SHA --source-bundle S3Bucket="elasticbeanstalk-${{ secrets.AWS_REGION }}-${{ secrets.AWS_ACCOUNT_ID }}",S3Key="deploy.zip"
-        echo 'Checking environment status before update...'
-        while true; do
-          STATUS=$(aws elasticbeanstalk describe-environments --application-name BankApp --environment-names BankApp --query 'Environments[0].Status' --output text)
-          echo "Current environment status: $STATUS"
-          if [ "$STATUS" = "Ready" ]; then
-            echo 'Environment is ready for update.'
-            sleep 240 # Wait for 4 minutes before updating the environment
-            STATUS=$(aws elasticbeanstalk describe-environments --application-name BankApp --environment-names BankApp --query 'Environments[0].Status' --output text)
-            if [ "$STATUS" = "Ready" ]; then
-              break
-            fi
-          fi
-          echo 'Waiting for environment to be ready...'
-          sleep 30
-        done
-        echo 'Updating environment...'
-        aws elasticbeanstalk update-environment --application-name BankApp --environment-name BankApp --version-label $GITHUB_SHA
       working-directory: ./backend
