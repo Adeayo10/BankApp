@@ -33,11 +33,11 @@ describe('Customer CRUD Operations', () => {
       balance: 0,
     };
 
-    
+
     const res = await request(app)
       .post('/customer/create')
       .set('Authorization', testToken)
-      .send(customer);
+      .send(customers);
 
     console.log('Response:', res.body); 
 
