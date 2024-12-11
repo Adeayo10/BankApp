@@ -1,7 +1,7 @@
 const getToken = () => localStorage.getItem("token");
 export async function createUserAPI(user) {
   try {
-    const response = await fetch("/api/user/create", {
+    const response = await fetch("http://34.214.49.10:3000/api/user/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -19,7 +19,7 @@ export async function createUserAPI(user) {
 
 export async function getUsersAPI() {
   try {
-    const response = await fetch("/api/user/all", {
+    const response = await fetch("http://34.214.49.10:3000/api/user/all", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +54,7 @@ export async function getUserByIdAPI(id) {
 
 export async function updateUserAPI(user, id) {
   try {
-    const response = await fetch(`/api/user/${id}`, {
+    const response = await fetch(`http://34.214.49.10:3000/api/user/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export async function updateUserAPI(user, id) {
 }
 export async function deleteUserAPI(id) {
   try {
-    const response = await fetch(`/api/user/${id}`, {
+    const response = await fetch(`http://34.214.49.10:3000/api/user/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
