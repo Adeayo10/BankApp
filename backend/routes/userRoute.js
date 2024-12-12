@@ -9,7 +9,7 @@ const {
   deleteUser,
 } = require('../controllers/userController');
 
-router.post('/create', authenticateToken, createUser);
+router.post('/create', /*authenticateToken*/ createUser);
 router.get('/all', authenticateToken, getUsers);
 router.get('/:id',authenticateToken, getUserById);
 router.put('/:id',authenticateToken, updateUser);
