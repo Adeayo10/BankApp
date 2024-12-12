@@ -47,7 +47,6 @@ function renderUserTable(userList, users) {
                     <th>Name</th>
                     <th>Email
                     <th>Role</th>
-                   
                 </tr>
             </thead>
             <tbody>
@@ -87,7 +86,6 @@ function getFormData() {
 
 function createUserObject(formData) {
   const user = {
-    // id: formData.id? parseInt(formData.id) : null,
     name: formData.name,
     email: formData.email,
     role: formData.role,
@@ -110,13 +108,6 @@ async function saveUser(user) {
 async function handleCreateUser(e, userForm, userList) {
   e.preventDefault();
   const formData = getFormData();
-
-  // const existingUserIndex = findExistingUserIndex(formData.id);
-
-  // if(existingUserIndex > -1){
-  //     alert("User with the ID already exists");
-  //     return;
-  // }
 
   const user = createUserObject(formData);
   const { isValid, errors } = validateUser(user);
@@ -207,9 +198,6 @@ async function handleDeleteUser(userForm, userList) {
 
     userForm.reset();
 }
-
-
-
 
 export {
   handleGetUsers,

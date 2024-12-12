@@ -154,13 +154,7 @@ const renderCustomerTable = (customerList, customers) => {
 async function handleSubmit(e, customerForm, customerList) {
   e.preventDefault();
   const formData = getFormData();
-  // const existingCustomerIndex = findExistingCustomerIndex(formData.id);
-
-  // if (existingCustomerIndex > -1) {
-  //   alert("Customer with the ID already exists");
-  //   return;
-  // }
-
+  
   const customer = createCustomerObject(formData);
   const { isValid, errors } = validateCustomer(customer);
   if (!isValid) {
@@ -176,7 +170,6 @@ async function handleSubmit(e, customerForm, customerList) {
 
   alert(saveResult.message);
   getCustomers(customerList);
-  // displayCustomers(customerList, customers);
   customerForm.reset();
 }
 

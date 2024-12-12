@@ -15,15 +15,6 @@ async function handleGetTransactions(transactionList) {
 function displayTransactions(transactionList, transactions) {
   renderTransactionTable(transactionList, transactions);
   const transactionRows = transactionList.querySelectorAll("tr");
-  // transactionRows.forEach((row) => {
-  //   // row.addEventListener("click", () => {
-  //   //   const transactionId = parseInt(row.getAttribute("data-id"));
-  //   //   const transaction = transactions.find(
-  //   //     (transaction) => transaction.id === transactionId
-  //   //   );
-  //   //   loadTransaction(transaction);
-  //   // });
-  // });
 }
 
 function renderTransactionTable(transactionList, transactions) {
@@ -66,16 +57,6 @@ const formatDate = (dateString) => {
 };
 
 
-// function loadTransaction(transaction) {
-//   document.getElementById("transaction-id").value = transaction.id;
-//   document.getElementById("transaction-customer-accountNumber").value =
-//     transaction.accountNumber;
-//   document.getElementById("transaction-amount").value = transaction.amount;
-//   document.getElementById("transaction-type").value = transaction.type;
-//   document.getElementById("transaction-description").value =
-//     transaction.description;
-//   document.getElementById("transaction-date").value = transaction.date;
-// }
 
 function handleGetTransactionBySearch(transactionList, searchValue) {
   const transactions = transactionList.querySelectorAll("tr");
