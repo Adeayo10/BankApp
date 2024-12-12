@@ -1,0 +1,62 @@
+{
+    "customers": [
+        {
+            "id": 1,
+            "name": "Adeayo Kola-Adeyemi",
+            "email": "aadelee74@gmail.com",
+            "phone": "123-456-7890",
+            "address": "Shackleton St Dublin",
+            "dateOfBirth": "1999-04-30",
+            "accountType": "savings",
+            "balance": 0,
+            "accountNumber": 1234567890
+        },
+        {
+            "id": 2,
+            "name": "Adesoji Kola-Adeyemi",
+            "email": "kolasoji@gmail.com",
+            "phone": "987-654-3210",
+            "address": "Shackleton st Dublin",
+            "dateOfBirth": "1985-05-15",
+            "accountType": "current",
+            "balance": 0,
+            "accountNumber": 9876543210
+        }
+    ],
+    "users": [
+        {
+            "id": 1,
+            "name": "Adeayo Kola-Adeyemi",
+            "email": "aadelee74@gmail.com",
+            "role": "admin",
+            "password": "password"
+        },
+        {
+            "id": 2,
+            "name": "Adesoji Kola-Adeyemi",
+            "email": "kolasoji@gmail.com",
+            "role": "user",
+            "password": "password"
+        }
+    ],
+    "transactions": [
+        {
+            "id": 1,
+            "accountNumber": 1234567890,
+            "amount": 1000,
+            "date": "2021-04-30",
+            "type": "deposit",
+            "description": "Salary"
+        },
+        {
+            "id": 2,
+            "accountNumber": 9876543210,
+            "amount": 500,
+            "date": "2021-04-30",
+            "type": "withdrawal",
+            "description": "Rent"
+
+        }
+    ]
+
+}
