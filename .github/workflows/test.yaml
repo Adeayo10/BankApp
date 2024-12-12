@@ -76,19 +76,19 @@ jobs:
       run: npm install
       working-directory: ./backend
 
-    - name: SSH into AWS server and clone repository
-      env:
-        AWS_PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY }}
-        AWS_HOST: ${{ secrets.AWS_HOST }}
-        AWS_USER: ${{ secrets.AWS_USER }}
-      run: |
-        echo "${{ env.AWS_PRIVATE_KEY }}" > private_key.pem
-        chmod 600 private_key.pem
-        ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ env.AWS_USER }}@${{ env.AWS_HOST }} << 'EOF'
-          cd ~
-          git clone https://github.com/yourusername/yourrepository.git
-          cd yourrepository/backend
-          npm install
-          npm start
-        EOF
-      shell: bash
+    # - name: SSH into AWS server and clone repository
+    #   env:
+    #     AWS_PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY }}
+    #     AWS_HOST: ${{ secrets.AWS_HOST }}
+    #     AWS_USER: ${{ secrets.AWS_USER }}
+    #   run: |
+    #     echo "${{ env.AWS_PRIVATE_KEY }}" > private_key.pem
+    #     chmod 600 private_key.pem
+    #     ssh -o StrictHostKeyChecking=no -i private_key.pem ${{ env.AWS_USER }}@${{ env.AWS_HOST }} << 'EOF'
+    #       cd ~
+    #       git clone https://github.com/yourusername/yourrepository.git
+    #       cd yourrepository/backend
+    #       npm install
+    #       npm start
+    #     EOF
+    #   shell: bash
